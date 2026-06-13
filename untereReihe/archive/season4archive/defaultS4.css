@@ -1,0 +1,93 @@
+:root {
+    --primary-color: #2a2c6b;
+    --secondary-color: #74215d;
+    --tertiary-color: #1c1e4a;
+    --border-radius: 8px;
+    --text-color: white;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background: linear-gradient(to bottom right, var(--tertiary-color), var(--secondary-color));
+    min-height: 100vh;
+    overflow-y: hidden;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 11vh;
+    margin: 2vh 0;
+}
+
+header h1 {
+    background-color: var(--primary-color);
+    padding: 1vh 1vw;
+    border-radius: var(--border-radius);
+    color: var(--text-color);
+    font-size: 3rem;
+    text-align: center;
+    width: 50vw;
+    height: 100%;
+}
+
+/* Buttons */
+.button {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    padding: 1vh 2vw;
+    font-size: 1.5vw;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    border: 2px solid white;
+}
+
+#back-button {
+    position: absolute;
+    left: 10px; /* Abstand vom linken Rand */
+    top: 2vh;
+}
+
+.button:hover {
+    background-color: var(--secondary-color);
+}
+
+/*Tabellen*/
+th, td {
+    padding: 5px;
+    border: 1px solid #000;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+tbody tr{
+    background-color: white;
+}
+
+thead {
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    text-overflow: ellipsis;
+}
+
+tbody td {
+    height: 20px;
+    text-align: center;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: black;
+}

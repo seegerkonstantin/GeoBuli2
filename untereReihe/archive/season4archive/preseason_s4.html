@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Geobundesliga - S4 Preseason</title>
+
+  <link rel="stylesheet" href="defaultS4.css" />
+  <link rel="icon" href="../../../icon.png" />
+  <style>
+    body {
+      overflow: auto;
+    }
+
+    .container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 2vh;
+    }
+
+    #preseason-table {
+      margin-top: 4vh;
+      margin-left: 2vw;
+      width: 80%;
+    }
+
+    .link {
+      color: white;
+      text-decoration: none;
+    }
+
+    .link:hover {
+      color: yellow;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <a href="../archive.html" class="button" id="back-button">
+        <span>Archiv</span>
+    </a>
+    <h1>Preseason</h1>
+  </header>
+  <div class="container">
+    <a href="https://forms.gle/AMikUBLGsB4kmeTG7" class="button" id="resignup-button" target="_blank">
+      <span>Signup (nur Neue)</span>
+    </a>
+  </div>
+  <div style="max-height: 800px; overflow-y: auto">
+    <table id="preseason-table">
+      <thead>
+        <tr>
+          <th colspan="6">Preseason Zwischenstand</th>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th>Dach 2' Move</th>
+          <th>World 3' Move</th>
+          <th>World Pinpointable 1'30 NM</th>
+          <th>Dach 1'30 NM</th>
+          <th>A Pro World 1' NM</th>
+          <th>An Arbitrary Rural World 1'30 NM</th>
+          <th>A Competitive World 1' NMPZ</th>
+          <th>Terminus '30 NMPZ</th>
+          <th>A Rural World 1' NMPZ</th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr>
+          <th>Platz</th>
+          <th>Spieler</th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/2GILZ5qRoFTOvJsP" class="link" target="_blank">Link</a>
+          </th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/IGpW4FyEC1nzScki" class="link" target="_blank">Link</a>
+          </th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/ijRySCPs2TsZGeQ0" class="link" target="_blank">Link</a>
+          </th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/BQI1F6Bi6L4SC5b8" class="link" target="_blank">Link</a>
+          </th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/C9wd22ZkYhhnYgwD" class="link" target="_blank">Link</a>
+          </th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/UFzC0nwT5tp3Z4Ms" class="link" target="_blank">Link</a>
+          </th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/CEjhWkccQY3BF8MH" class="link" target="_blank">Link</a>
+          </th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/59P7yokNd5tTqjEG" class="link" target="_blank">Link</a>
+          </th>
+          <th>
+            <a href="https://www.geoguessr.com/challenge/P07R7G45q4CVvEfL" class="link" target="_blank">Link</a>
+          </th>
+          <th>Average Score</th>
+          <th>Gesamtpunkte</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td colspan="13">Bisher keine Ergebnisse vorhanden</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script type="text/javascript">
+    document.addEventListener("DOMContentLoaded", loadData);
+
+    function loadData() {
+      const sheetID = "1ZjXykmjPpnZiBVKczpes8mfoHXwnvOJ7aA6TeCw83wU";
+      const spreadsheetGID = "0";
+      const range = "B12:N110";
+      const queryURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?gid=${spreadsheetGID}&range=${range}`;
+
+      fetch(queryURL)
+        .then((response) => response.text())
+        .then((data) => {
+          const jsonData = JSON.parse(data.substring(47, data.length - 2));
+          const rows = jsonData.table.rows;
+          const tbody = document.querySelector("#preseason-table tbody");
+          tbody.innerHTML = "";
+
+          let maxValues = Array(13).fill(-Infinity);
+          let colIndexes = [4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+          // Finde die maximalen Werte in den relevanten Spalten
+          rows.forEach((row) => {
+            colIndexes.forEach((colIndex) => {
+              let value = parseFloat(row.c[colIndex]?.v) || 0;
+              if (value > maxValues[colIndex]) {
+                maxValues[colIndex] = value;
+              }
+            });
+          });
+
+          // Erstelle die Tabellenzeilen nur wenn Spielername vorhanden ist
+          rows.forEach((row) => {
+            const playerName = row.c[1]?.v; // Spalte C = Spieler*in
+
+            if (!playerName || playerName === "" || playerName === "NA" || playerName === "#N/A" || playerName === "#NV") {
+              return; // überspringe Zeilen ohne Spielername
+            }
+
+            let tr = document.createElement("tr");
+            let newOrder = [0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 2, 3];
+
+            newOrder.forEach((colIndex) => {
+              let cell = document.createElement("td");
+              let value = row.c[colIndex]?.v || "";
+              cell.textContent = !isNaN(value) ? Math.round(value) : value;
+
+              // Highlighten falls Wert gleich Maximum
+              if (
+                colIndexes.includes(colIndex) &&
+                parseFloat(value) === maxValues[colIndex]
+              ) {
+                cell.style.backgroundColor = "#f3cf02";
+              }
+              tr.appendChild(cell);
+            });
+
+            tbody.appendChild(tr);
+          });
+
+          if (!tbody.hasChildNodes()) {
+            tbody.innerHTML =
+              "<tr><td colspan='13'>Bisher keine Ergebnisse vorhanden</td></tr>";
+          }
+        })
+        .catch((error) => {
+          console.error("Bisher keine Ergebnisse vorhanden:", error);
+          document.querySelector("#preseason-table tbody").innerHTML =
+            "<tr><td colspan='13'>Bisher keine Ergebnisse vorhanden</td></tr>";
+        });
+    }
+  </script>
+
+
+
+</body>
+
+</html>

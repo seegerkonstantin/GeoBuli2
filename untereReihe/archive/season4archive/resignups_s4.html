@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geobundesliga - S4 Wiederanmeldungen</title>
+
+    <link rel="stylesheet" href="defaultS4.css" />
+    <link rel="icon" href="../../../icon.png" />
+    <style>
+      body {
+        overflow: auto;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2vh;
+      }
+
+      .table-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5vw;
+        justify-content: center;
+      }
+
+      .league-table {
+        width: 8vw;
+      }
+
+      .league-table-wide {
+        width: 16vw;
+      }
+
+      th {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="index.html" class="button" id="back-button">
+        <span>Zurück</span>
+      </a>
+      <h1>Wiederanmeldungen</h1>
+    </header>
+    <div class="container">
+      <a
+        href="https://forms.gle/SGyeUqEV6MY8dpFq8"
+        class="button"
+        id="resignup-button"
+        target="_blank"
+      >
+        <span>Re-Signup</span>
+      </a>
+    </div>
+    <div class="table-container">
+      <!-- Liga 1 -->
+      <table class="league-table" id="liga1">
+        <thead>
+          <tr>
+            <th>Liga 1</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Liga 2 -->
+      <table class="league-table" id="liga2">
+        <thead>
+          <tr>
+            <th>Liga 2</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Liga 3 -->
+      <table class="league-table-wide" id="liga3">
+        <thead>
+          <tr>
+            <th colspan="2">Liga 3</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Liga 4 -->
+      <table class="league-table-wide" id="liga4">
+        <thead>
+          <tr>
+            <th colspan="2">Liga 4</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    // Google Sheet Setup
+    let sheetID = "1Dg2kWwGmSLQyYCAsKiDq45o6LIAiXnVg_o1wI8kkPQE";
+    let spreadsheetName = "resignups";
+
+    let dataRange1 = "B2:C17";
+    let dataRange2 = "D2:E16";
+    let dataRange3 = "F2:G31";
+    let dataRange4 = "H2:I29";
+
+    let URL1 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange1;
+    let URL2 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange2;
+    let URL3 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange3;
+    let URL4 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange4;
+
+    // Daten abrufen
+    function fetchAndRenderData(URL) {
+      fetch(URL)
+        .then((res) => res.text())
+        .then((rep) => {
+          let jsonData = JSON.parse(rep.substr(47).slice(0, -2));
+          renderLeagueTable(jsonData, URL);
+        })
+        .catch((error) => {
+          console.error("Fehler beim Abrufen der Daten: ", error);
+        });
+    }
+
+    // Standard-Renderfunktion für einspaltige Tabellen
+    function renderHalf(rows, selector) {
+      let tableBody = document.querySelector(selector);
+      tableBody.innerHTML = "";
+
+      rows.forEach((row) => {
+        let player = row.c[0]?.v || "Unbekannt";
+        let status = row.c[1]?.v || "0";
+
+        let newRow = document.createElement("tr");
+        newRow.innerHTML = `<td>${player}</td>`;
+        if (status == "1") newRow.style.backgroundColor = "#75A960";
+
+        tableBody.appendChild(newRow);
+      });
+    }
+
+    // Neue Renderfunktion für zweispaltige Tabellen
+    function renderSplit(firstHalf, secondHalf, selector) {
+      let tableBody = document.querySelector(selector);
+      tableBody.innerHTML = "";
+
+      let maxRows = Math.max(firstHalf.length, secondHalf.length);
+
+      for (let i = 0; i < maxRows; i++) {
+        let row = document.createElement("tr");
+
+        // linke Spalte
+        if (i < firstHalf.length) {
+          let player = firstHalf[i].c[0]?.v || "Unbekannt";
+          let status = firstHalf[i].c[1]?.v || "0";
+          let td = document.createElement("td");
+          td.textContent = player;
+          if (status == "1") td.style.backgroundColor = "#75A960";
+          row.appendChild(td);
+        } else {
+          row.appendChild(document.createElement("td"));
+        }
+
+        // rechte Spalte
+        if (i < secondHalf.length) {
+          let player = secondHalf[i].c[0]?.v || "Unbekannt";
+          let status = secondHalf[i].c[1]?.v || "0";
+          let td = document.createElement("td");
+          td.textContent = player;
+          if (status == "1") td.style.backgroundColor = "#75A960";
+          row.appendChild(td);
+        } else {
+          row.appendChild(document.createElement("td"));
+        }
+
+        tableBody.appendChild(row);
+      }
+    }
+
+    // Tabellen rendern
+    function renderLeagueTable(jsonData, URL) {
+      let rows = jsonData.table.rows;
+
+      if (URL == URL1) {
+        renderHalf(rows, "#liga1 tbody");
+      } else if (URL == URL2) {
+        renderHalf(rows, "#liga2 tbody");
+      } else if (URL == URL3) {
+        let halfway = Math.ceil(rows.length / 2);
+        renderSplit(
+          rows.slice(0, halfway),
+          rows.slice(halfway),
+          "#liga3 tbody"
+        );
+      } else if (URL == URL4) {
+        let halfway = Math.ceil(rows.length / 2);
+        renderSplit(
+          rows.slice(0, halfway),
+          rows.slice(halfway),
+          "#liga4 tbody"
+        );
+      }
+    }
+
+    // Lade alle Daten beim Seitenstart
+    document.addEventListener("DOMContentLoaded", function () {
+      fetchAndRenderData(URL1);
+      fetchAndRenderData(URL2);
+      fetchAndRenderData(URL3);
+      fetchAndRenderData(URL4);
+    });
+  </script>
+</html>

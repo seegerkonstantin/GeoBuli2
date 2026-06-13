@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Season 2 Playoffs</title>
+    <link rel="stylesheet" href="archive_season2_playoffs_Style.css">
+</head>
+<body>
+    <!-- Back button -->
+    <a class="back-button" href="../archive.html">Start</a>
+
+    <header>
+        <h1>Season 2 Playoffs/Relegation</h1>
+    </header>
+    
+    <h2>Final 4 Playoffs</h2>
+
+    <div class="bracket">
+        <!-- Halbfinale -->
+        <div class="round">
+            <h3>Halbfinale</h3>
+            <div id="halbfinale" class="match-group"></div>
+        </div>
+    
+        <!-- Finale -->
+        <div class="round">
+            <h3>Finale</h3>
+            <div id="finale" class="match-group"></div>
+        </div>
+    
+        <!-- Platz 3 -->
+        <div class="round">
+            <h3>Spiel um Platz 3</h3>
+            <div id="spiel-platz-3" class="match-group"></div>
+        </div>
+    </div>
+
+    <h5>Relegationsspiele</h5>
+    <h3>Relegation Liga 1/2</h3>
+    <div id="relegation-1-2" class="match-group"></div>
+
+    <h3>Relegation Liga 2/3</h3>
+    <div id="relegation-2-3" class="match-group"></div>
+
+    <!-- Modal für Spielzusammenfassungen -->
+    <div id="gameModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <div class="popup-title">
+                <h4 id="modalTitle"></h4>
+            </div>
+            <p id="modalDetails"></p>
+            <div id="maps-container"></div>
+        </div>
+    </div>
+    
+    <script>
+        const sheetID = "1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU";
+        const spreadsheetName = "play offs";
+        const range = "A1:F6";
+        const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${spreadsheetName}&range=${range}`;
+
+        let matchData = [];
+
+        async function fetchTournamentData() {
+            const res = await fetch(url);
+            const text = await res.text();
+            const jsonData = JSON.parse(text.substring(47).slice(0, -2));
+
+            matchData = jsonData.table.rows.map(row => ({
+                round: row.c[0]?.v || "Unbekannt",
+                player1: row.c[1]?.v || "-",
+                player2: row.c[2]?.v || "-",
+                score: row.c[3]?.v || ":",
+                winner: row.c[4]?.v || "-",
+                games: JSON.parse(row.c[5]?.v || "[]").map(gameData => ({
+                    title: gameData[0],
+                    winner: gameData[1],
+                    url: gameData[3]
+                }))
+            }));
+            //console.log("📊 Geladene Spieldaten:", matchData);
+            renderBracket(matchData);
+        }
+
+        function createMatchBox(parentId, match) {
+            const parent = document.getElementById(parentId);
+            if (!parent) {
+                console.error(`❌ Fehler: Container mit ID '${parentId}' nicht gefunden.`);
+                return;
+            }
+
+            const matchDiv = document.createElement("div");
+            matchDiv.classList.add("match-box");
+            matchDiv.textContent = `${match.player1} - ${match.player2} ${match.score}`;
+            matchDiv.onclick = () => openModal(match);
+            parent.appendChild(matchDiv);
+        }
+
+        function openModal(matchData) {
+            const modal = document.getElementById('gameModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalDetails = document.getElementById('modalDetails');
+            const mapsContainer = document.getElementById('maps-container');
+
+            modalTitle.textContent = `${matchData.player1} vs ${matchData.player2}`;
+            modalDetails.innerHTML = `<strong>Round:</strong> ${matchData.round}<br><strong>Ergebnis:</strong> ${matchData.score || 'Noch nicht verfügbar'}`;
+
+            mapsContainer.innerHTML = "";
+            if (matchData.games && matchData.games.length > 0) {
+                const maps = matchData.games;
+                const rows = [[], [], []];
+
+                for (let i = 0; i < maps.length; i++) {
+                    if (i < 2) rows[0].push(maps[i]);
+                    else if (i < 5) rows[1].push(maps[i]);
+                    else rows[2].push(maps[i]);
+                }
+
+             rows.forEach(row => {
+                    if (row.length > 0) {
+                        const rowDiv = document.createElement('div');
+                        rowDiv.className = 'maps-row';
+
+                        row.forEach(game => {
+                            const mapBox = document.createElement('a');
+                            mapBox.href = game.url;
+                            mapBox.target = '_blank';
+                            mapBox.textContent = game.title;
+                            mapBox.classList.add('map-box');
+
+                            if (game.winner === "blue") {
+                                mapBox.classList.add("blue");
+                            } else if (game.winner === "red") {
+                                mapBox.classList.add("red");
+                            } 
+
+                            rowDiv.appendChild(mapBox);
+                        });
+
+                        mapsContainer.appendChild(rowDiv);
+                    }
+                });
+            } else {
+                mapsContainer.innerHTML = '<em>Keine Maps verfügbar</em>';
+            }
+
+            modal.style.display = 'flex';
+        }
+
+        function closePopup() {
+            document.getElementById("gameModal").style.display = "none";
+        }
+
+        window.addEventListener("click", function (event) {
+            const modal = document.getElementById("gameModal");
+            if (event.target === modal) {
+                closePopup();
+            }
+        });
+
+        function renderBracket(matchData) {
+            if (!matchData || matchData.length === 0) {
+                console.warn("⚠️ Keine Matches zum Anzeigen!");
+                return;
+            }
+
+            const roundMapping = {
+                "Halbfinale 1": "Halbfinale",
+                "Halbfinale 2": "Halbfinale",
+                "Finale": "Finale",
+                "Spiel um Platz 3": "Spiel um Platz 3",
+                "Relegation Liga 1-2": "Relegation Liga 1/2",
+                "Relegation Liga 2-3": "Relegation Liga 2/3"
+            };
+
+            const rounds = {
+                "Halbfinale": "halbfinale",
+                "Finale": "finale",
+                "Spiel um Platz 3": "spiel-platz-3",
+                "Relegation Liga 1/2": "relegation-1-2",
+                "Relegation Liga 2/3": "relegation-2-3"
+            };
+
+            Object.values(rounds).forEach(id => {
+                const container = document.getElementById(id);
+                if (container) container.innerHTML = ""; // Container leeren
+            });
+
+            matchData.forEach(match => {
+                const roundKey = roundMapping[match.round] || match.round; // Mapping nutzen
+
+                if (!rounds[roundKey]) {
+                    console.warn(`⚠️ Match ohne gültige Runde gefunden: "${match.round}" (${match.player1} vs ${match.player2})`);
+                    return;
+                }
+
+                console.log(`🎯 Match gefunden: ${match.player1} vs ${match.player2} in Runde ${roundKey}`);
+
+                createMatchBox(rounds[roundKey], match);
+            });
+        }
+
+
+        window.onload = async function() {
+            console.log("🚀 Seite vollständig geladen!");
+            await fetchTournamentData();
+            console.log("📊 Geladene Spieldaten:", matchData);
+        };
+    </script>
+</body>
+</html>

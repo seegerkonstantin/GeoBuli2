@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Geo Bundesliga</title>
+  <link rel="icon" href="icon.png" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <style>
+    html {
+      min-height: 100%;
+      background: linear-gradient(to bottom right, #1a0033, #660066);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background: transparent;
+      /* html-Farbverlauf sichtbar */
+      color: white;
+      text-align: center;
+      font-size: larger;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+      background-image: url("hintergrund.png");
+      background-size: cover;
+      background-position: center;
+      background-attachment:fixed
+    }
+
+    .card-custom {
+      background-color: #330351;
+      color: white;
+      border-radius: 5px;
+      padding: clamp(22px, 4vw, 40px);
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: clamp(86px, 16vw, 122px);
+      text-align: center;
+    }
+
+    .card-untere-reihe {
+      padding: 30px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      background-color: #2a2c6b;
+      color: #dcd6e0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .my-6 {
+      margin-top: 5rem !important;
+      margin-bottom: 5rem !important;
+    }
+
+    #newest-games-card {
+      background-color: #dcd6e0cc;
+      text-align: left;
+    }
+
+    .live-button {
+      background-color: #FF0000;
+      color: white;
+      padding: 8px 16px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1em;
+      transition: background-color 0.3s ease;
+    }
+
+    .live-button:hover {
+      background-color: #cc0000;
+    }
+
+    #live-button {
+      position: absolute;
+      top: 3.5em;
+      right: 15%;
+      display: none;
+    }
+
+    .youtube-slider {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .yt-arrow {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: #6c757d;
+      color: white;
+      border: none;
+      font-size: 2rem;
+      cursor: pointer;
+      z-index: 2;
+      padding: 5px 10px;
+      border-radius: 4px;
+      opacity: 0.8;
+    }
+
+    .yt-arrow.left {
+      left: 10px;
+    }
+
+    .yt-arrow.right {
+      right: 10px;
+    }
+
+    .yt-arrow:hover {
+      opacity: 1;
+      background-color: #5a6268;
+    }
+
+    /* Header */
+    header {
+      background-color: #1a012b;
+      padding: 30px 40px;
+      /* etwas höher */
+      flex-shrink: 0;
+      gap: 1rem;
+    }
+
+    header .logo {
+      font-weight: bold;
+      font-size: 1.6rem;
+      /* leicht größer */
+      display: flex;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    header nav a {
+      text-decoration: none;
+      color: white;
+      margin: 0;
+      padding: 0.35rem 0.45rem;
+      border-radius: 6px;
+    }
+
+    header .logo img {
+      height: 1.5em;
+      margin-right: 0.25em;
+    }
+
+    .nav-icon {
+      display: none;
+    }
+
+    .btn-discord .nav-icon {
+      display: inline-block;
+      margin-right: 0.35rem;
+    }
+
+    header nav a:hover {
+      color: #ffcc00;
+      background-color: transparent;
+    }
+
+    header .btn-discord {
+      background: #4b1d69;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: white;
+      text-decoration: none;
+      margin-left: 0.35rem;
+      white-space: nowrap;
+    }
+
+    .btn-discord:hover {
+      border-color: #9b5de5;
+      background-color: #5b2a86;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding: 0;
+      font-size: 0.9rem;
+      color: #ccc;
+      background: transparent;
+      flex-shrink: 0;
+    }
+
+    footer a {
+      color: #ccc;
+      text-decoration: none;
+      margin: 0 5px;
+    }
+
+    footer a:hover {
+      color: #ffcc00;
+    }
+
+    main {
+      flex: 1;
+      /* sorgt dafür, dass Footer unten bleibt */
+    }
+
+    .content-wrapper {
+      flex: 1;
+      /* füllt automatisch den Platz zwischen Header und Footer */
+    }
+
+    .liga-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 0.9rem;
+    }
+
+    .season-card {
+      background-color: #2b2a2cbe;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+      margin: 2rem auto 0;
+      max-width: 980px;
+      padding: 1rem;
+      text-align: left;
+    }
+
+    .season-head {
+      align-items: center;
+      display: flex;
+      gap: 1rem;
+      justify-content: space-between;
+      margin-bottom: 0.25rem;
+    }
+
+    .season-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .season-subtitle {
+      color: #dcd6e0;
+      font-size: 0.92rem;
+      margin: 0.15rem 0 0;
+    }
+
+    .season-badge {
+      background: rgba(255, 204, 0, 0.16);
+      border: 1px solid rgba(255, 204, 0, 0.45);
+      border-radius: 999px;
+      color: #ffcc00;
+      flex-shrink: 0;
+      font-size: 0.78rem;
+      font-weight: 800;
+      padding: 0.32rem 0.65rem;
+      text-align: center;
+    }
+
+    .liga-name {
+      font-size: 1.05rem;
+    }
+
+    .info-section {
+      margin: 2rem auto;
+      max-width: 980px;
+    }
+
+    .games-card {
+      background-color: #2b2a2cbe;
+      color: white;
+      text-align: left;
+      min-width: min(100%, 300px);
+      max-width: none;
+      flex: 1;
+      max-height: 381px;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .results-slider {
+      max-height: 345px;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding-right: 0.25rem;
+      position: relative;
+    }
+
+    .results-tabs {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      display: grid;
+      gap: 0.25rem;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      margin-bottom: 0.75rem;
+      padding: 0.25rem;
+    }
+
+    .result-tab {
+      background: transparent;
+      border: 0;
+      border-radius: 8px;
+      color: #dcd6e0;
+      font-weight: 800;
+      padding: 0.45rem 0.6rem;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .result-tab.active {
+      background: #ffcc00;
+      color: #1a012b;
+    }
+
+    .result-tab:not(.active):hover {
+      background: rgba(255, 255, 255, 0.12);
+      color: #fff;
+    }
+
+    #results-slider {
+      position: relative;
+      /* min-height: 380px; */
+      /* gleiche Höhe wie die YT-Box */
+    }
+
+    .result-panel {
+      display: none;
+    }
+
+    .result-panel.active {
+      display: block;
+    }
+
+    a.socials_link:hover {
+      background-color: transparent !important;
+    }
+
+    #newest-games-list,
+    #weekly-games-list {
+      list-style: none;
+      padding-left: 0;
+    }
+
+    #newest-games-list {
+      white-space: normal !important;
+    }
+
+    .match-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .match-item {
+      background: rgba(255, 255, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-left: 4px solid #ffcc00;
+      border-radius: 8px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      align-items: center;
+      gap: 0.65rem;
+      padding: 0.45rem 0.6rem;
+    }
+
+    .match-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 0.22rem;
+      font-size: 0.72rem;
+      min-width: 4.2rem;
+    }
+
+    .match-pill {
+      background: rgba(75, 29, 105, 0.75);
+      border-radius: 999px;
+      color: #fff;
+      font-weight: 700;
+      line-height: 1.1;
+      padding: 0.1rem 0.4rem;
+      text-align: center;
+    }
+
+    .match-line {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.92rem;
+      min-width: 0;
+    }
+
+    .match-player {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .match-player:last-child {
+      text-align: right;
+    }
+
+    .match-score {
+      background: #330351;
+      border-radius: 7px;
+      color: #fff;
+      font-weight: 800;
+      min-width: 3.2rem;
+      padding: 0.14rem 0.35rem;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .match-empty {
+      color: #dcd6e0;
+      margin: 0;
+      padding: 0.35rem 0;
+    }
+
+    @media (max-width: 991.98px) {
+      header {
+        padding: 22px 24px;
+      }
+
+      .liga-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 767.98px) {
+      body {
+        background-attachment: scroll;
+        font-size: 1rem;
+      }
+
+      header {
+        flex-direction: column;
+        justify-content: center !important;
+        padding: 16px;
+      }
+
+      header .logo {
+        font-size: 1.35rem;
+      }
+
+      header nav {
+        width: 100%;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.35rem;
+      }
+
+      header nav a {
+        margin: 0;
+        padding: 0.45rem 0.55rem;
+        font-size: 0.95rem;
+      }
+
+      header .btn-discord {
+        margin-left: 0;
+      }
+
+      .container {
+        max-width: 100%;
+      }
+
+      .content-wrapper .container {
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      section.text-center.mt-5 {
+        margin-top: 2rem !important;
+      }
+
+      section.text-center h1 {
+        font-size: clamp(1.75rem, 9vw, 2.5rem) !important;
+        line-height: 1.1;
+      }
+
+      .liga-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+
+      .season-card {
+        margin-top: 1.5rem;
+        padding: 0.8rem;
+      }
+
+      .season-head {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.55rem;
+      }
+
+      .info-section {
+        gap: 1rem !important;
+        margin: 1.5rem 0;
+      }
+
+      .games-card {
+        min-width: 0;
+        width: 100%;
+        max-height: 430px;
+      }
+
+      .results-slider {
+        max-height: 358px;
+      }
+
+      .yt-arrow {
+        font-size: 1.35rem;
+        padding: 2px 8px;
+      }
+
+      footer .container {
+        justify-content: center !important;
+        flex-wrap: wrap;
+      }
+
+      footer .container > div {
+        display: none;
+      }
+    }
+
+    @media (max-width: 575.98px) {
+      header {
+        flex-direction: row;
+        justify-content: space-between !important;
+        gap: 0.75rem;
+      }
+
+      header .logo {
+        flex-shrink: 0;
+      }
+
+      header .logo img {
+        height: 2rem;
+        margin-right: 0;
+      }
+
+      .logo-text,
+      .nav-label {
+        display: none;
+      }
+
+      .nav-icon {
+        display: inline-block;
+        font-size: 1.15rem;
+        line-height: 1;
+      }
+
+      header nav {
+        display: flex !important;
+        flex: 1;
+        justify-content: flex-end;
+        gap: 0.2rem;
+        width: auto;
+      }
+
+      header nav a,
+      header .btn-discord {
+        align-items: center;
+        display: inline-flex;
+        height: 42px;
+        justify-content: center;
+        min-width: 42px;
+        padding: 0;
+      }
+
+      header .btn-discord {
+        border-radius: 8px;
+      }
+
+      .btn-discord .nav-icon {
+        margin-right: 0;
+      }
+    }
+
+    @media (max-width: 420px) {
+      header nav {
+        gap: 0.15rem;
+      }
+
+      header nav a {
+        min-width: 38px;
+      }
+
+      header .btn-discord {
+        min-width: 38px;
+      }
+
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="d-flex justify-content-between align-items-center">
+    <div class="logo">
+      <img src="icon.png" alt="Icon" />
+      <span class="logo-text">Geo Bundesliga</span>
+    </div>
+    <nav class="d-flex align-items-center">
+      <a href="untereReihe/archive/archive.html" aria-label="Archiv" title="Archiv"><i class="bi bi-archive nav-icon"></i><span class="nav-label">Archiv</span></a>
+      <a
+        href="https://docs.google.com/document/d/11WWWQ7A1m6n9R86trTNLUGLqALgalhZpOkxdVoMzFAg/edit?usp=sharing" aria-label="Regelwerk" title="Regelwerk"><i class="bi bi-journal-text nav-icon"></i><span class="nav-label">Regelwerk</span></a>
+      <a href="untereReihe/mapbot/mapbot.html" aria-label="Map Bot" title="Map Bot"><i class="bi bi-geo-alt nav-icon"></i><span class="nav-label">Map Bot</span></a>
+      <a href="untereReihe/stats/stats.html" aria-label="Statistiken" title="Statistiken"><i class="bi bi-bar-chart nav-icon"></i><span class="nav-label">Statistiken</span></a> 
+      <a href="https://discord.gg/2p8meFK2" class="btn-discord" aria-label="DACH Discord" title="DACH Discord"><i class="bi bi-discord nav-icon"></i><span class="nav-label">DACH Discord</span></a>
+    </nav>
+  </header>
+
+  <div class="content-wrapper">
+    <div class="container">
+      <section class="text-center mt-5">
+        <h1 style="font-size: 2.5rem; font-weight: bold;">Deutschsprachige GeoGuessr-Liga</h1>
+      </section>
+      <!--
+          <div style="position: relative; text-align: center; ">
+            <h1 class="mb-5 fw-bold">
+              <img src="icon.png" alt="Icon" style="height: 1.75em; margin-right: 0.25em;">
+              Geo Bundesliga
+            </h1>
+            <a id="live-button" class = "live-button" href="#" target="_blank"></a>
+          </div>-->
+
+
+
+      <!-- liga X -->
+      <div class="season-card">
+        <div class="season-head">
+          <div>
+            <h2 class="season-title">Saison 5</h2>
+            <p class="season-subtitle">Aktuelle Ligen der laufenden Geo Bundesliga Saison.</p>
+          </div>
+          <span class="season-badge">Aktuelle Saison</span>
+        </div>
+        <div class="liga-grid">
+          <a href="ligen/liga1.html" class="card-custom" aria-label="Liga 1"><span class="liga-name">Liga 1</span></a>
+          <a href="ligen/liga2.html" class="card-custom" aria-label="Liga 2"><span class="liga-name">Liga 2</span></a>
+          <a href="ligen/liga3.html" class="card-custom" aria-label="Liga 3"><span class="liga-name">Liga 3</span></a>
+          <a href="ligen/liga4.html" class="card-custom" aria-label="Liga 4"><span class="liga-name">Liga 4</span></a>
+          <a href="ligen/liga5.html" class="card-custom" aria-label="Liga 5"><span class="liga-name">Liga 5</span></a>
+        </div>
+        <!-- <a href="playoffs_season4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Playoffs</a>
+        <a href="relegation_season4.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Relegation</a> -->
+        <!-- <a href="preseason_s5.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Preseason</a>
+        <a href="resignups_s5.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Wiederanmeldungen</a>
+        <a href="preseason_s5_l2_l3.html" class="col-xs-12 col-sm-8 col-xl-4 card-custom">Preseason Liga 2/3</a> -->
+      </div>
+
+      
+      <div class="info-section d-flex flex-wrap justify-content-center gap-4">
+    
+        <!-- Ergebnisse -->
+        <div class="card games-card p-3">
+          <div class="results-tabs" role="tablist" aria-label="Matchansicht">
+            <button class="result-tab active" type="button" data-slide="0" onclick="showResultsSlide(0)">Ergebnisse</button>
+            <button class="result-tab" type="button" data-slide="1" onclick="showResultsSlide(1)">Anstehend</button>
+          </div>
+          <div id="results-slider" class="results-slider">
+            <div id="results-slides">
+              <div class="result-panel active">
+                <h5 class="visually-hidden">Ergebnisse der letzten 24h:</h5>
+                <ul id="newest-games-list" style="margin-bottom: 0;"></ul>
+              </div>
+
+              <div class="result-panel">
+                <h5 class="visually-hidden">Anstehende Matches:</h5>
+                <ul id="weekly-games-list" style="margin-bottom: 0;"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+    
+          <!-- <div class="card p-3"
+            style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px;">
+            <h5 class="card-title">YouTube Videos zur GeoBundesliga:</h5>
+            <div id="youtube-slider" style="position: relative; overflow: hidden;">
+              <div id="youtube-slides" style="white-space: nowrap; transition: transform 0.5s ease;">
+              </div>
+              <button class="yt-arrow left" onclick="prevSlide()">&#10094;</button>
+              <div class="youtube-slider" id="youtube-slider"></div>
+              <button class="yt-arrow right" onclick="nextSlide()">&#10095;</button>
+            </div>
+          </div> -->
+          <!-- <div class="card p-3"
+            style="background-color: #dcd6e0cc; text-align: left; min-width: 300px; max-width: 600px; flex: 1; max-height: 381px;">
+            <h5 class="card-title">Aktuelles:</h5>
+            18.05.2026 - Die fünfte Saison ist gestartet!
+          </div> -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Footer (sticky) -->
+  <footer style="padding-bottom: 1rem;">
+  <div class="container" style="display: flex; justify-content: flex-end; align-items: center; gap: 15px;">
+    
+    <div style="margin-right: auto; visibility: hidden;"><b>© 2026 Geobundesliga</b></div>
+    
+    <a href="https://www.twitch.tv/geobundesliga" class="socials_link" target="_blank">
+      <img src="img/socials/twitch.png" alt="Twitch" style="height: 2rem;">
+    </a>
+    
+    <a href="https://www.youtube.com/@Geobundesliga" class="socials_link" target="_blank">
+      <img src="img/socials/youtube.png" alt="YouTube" style="height: 2rem;">
+    </a>
+    
+    <a href="https://www.instagram.com/geobundesliga" class="socials_link" target="_blank">
+      <img src="img/socials/instagram.png" alt="Instagram" style="height: 2rem;">
+    </a>
+    
+    <a href="https://www.tiktok.com/@geobundesliga" class="socials_link" target="_blank">
+      <img src="img/socials/tiktok.png" alt="Tiktok" style="height: 2rem;">
+    </a>
+
+  </div>
+</footer>
+
+  <script src="newestGames.js"></script>
+  <script src="yt_twitch.js"></script>
+  <script>
+    const configs = [
+      {
+        key: "NewestGames",
+        sheetID: "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
+        sheetName: "Newest_games",
+        dataRange: "B2:U100",
+        target: "#newest-games-list",
+        renderMode: "stats"
+      },
+      {
+        key: "UpcomingGames",
+        sheetID: "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
+        sheetName: "Upcoming_games",
+        dataRange: "B2:U100",
+        target: "#weekly-games-list",
+        renderMode: "upcoming"
+      }
+    ];
+
+    configs.forEach(cfg => {
+      const info = new GameInfos(cfg);
+      info.initialize();
+    });
+
+    // Matchansicht wechseln
+    let currentResultsSlide = 0;
+    const resultsSlides = document.getElementById("results-slides");
+    const resultsSlider = document.getElementById("results-slider");
+    const resultTabs = document.querySelectorAll(".result-tab");
+    const resultPanels = resultsSlides.querySelectorAll(".result-panel");
+    const totalResultsSlides = resultPanels.length;
+
+    function showResultsSlide(index) {
+      if (index < 0) currentResultsSlide = totalResultsSlides - 1;
+      else if (index >= totalResultsSlides) currentResultsSlide = 0;
+      else currentResultsSlide = index;
+      resultsSlider.scrollTop = 0;
+      resultTabs.forEach((tab, tabIndex) => {
+        tab.classList.toggle("active", tabIndex === currentResultsSlide);
+      });
+      resultPanels.forEach((panel, panelIndex) => {
+        panel.classList.toggle("active", panelIndex === currentResultsSlide);
+      });
+    }
+
+    function nextResultsSlide() { showResultsSlide(currentResultsSlide + 1); }
+    function prevResultsSlide() { showResultsSlide(currentResultsSlide - 1); }
+  </script>
+  <script>
+      const newestGameStats = new NewestGameInfos(
+        "1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE",
+        "Newest_games",
+        "B2:U100",
+        "",
+        "NewestGames"
+      );
+
+      // Lade die Daten für alle Ligen
+      newestGameStats.initialize();
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Tabelle</title>
+    <link rel="stylesheet" href="spielpläne.css">
+</head>
+<body>
+    <!-- Pfeil, der zur Tabelle führt -->
+<a href="liga1.html" class="arrow">⬆️</a>
+<header>
+    <h1>Match Ergebnisse Liga 1</h1>
+</header>
+
+<!-- Slideshow-Container -->
+<div class="slideshow-container">
+    <!-- Linker Pfeil -->
+    <div class="arrow-left" onclick="prevSlide()">⬅️</div>
+
+    <div class="match-table">
+        <table>
+            <thead>
+                <tr>
+                    <th>Spieltag</th>
+                    <th>Spieler*in Blau</th>
+                    <th>Spieler*in Rot</th>
+                    <th>Match ID</th>
+                    <th>Ergebnis</th>
+                </tr>
+            </thead>
+            <tbody id="table-body">
+                <!-- Dynamische Zeilen werden hier hinzugefügt -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Rechter Pfeil -->
+    <div class="arrow-right" onclick="nextSlide()">➡️</div>
+</div>
+
+<!-- Modal-Container -->
+<div id="gameModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalTitle">Spielinformationen</h2>
+        <p id="modalDetails">Details zum Spiel werden hier angezeigt.</p>
+    </div>
+</div>
+
+
+</body>
+<script src="spielplaene.js"></script>
+<script>
+    const liga1 = new Spielplaene(
+        '1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU',
+        'Spielplan Liga 1',
+        13,
+        'liga1'
+    );
+    liga1.initialize();
+</script>
+
+</html>

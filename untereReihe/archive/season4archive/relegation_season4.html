@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GeoBundesliga Relegation Season 4</title>
+  <link rel="icon" href="../../../icon.png" />
+  <style>
+    :root {
+      --primary-color: #2a2c6b;
+      --secondary-color: #74215d;
+      --tertiary-color: #1c1e4a;
+      --border-radius: 8px;
+      --text-color: white;
+    }
+
+    *{
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      min-height: 100%;
+      background: linear-gradient(to bottom right, #1a0033, #660066);
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+    
+    /*body {
+      min-height: 100vh;
+      margin: 0;
+      background: transparent;
+      color: white;
+      text-align: center;
+      font-size: larger;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }*/
+
+    body {
+      background: linear-gradient(to bottom right, #1a0033, #660066);
+      font-family: Verdana, sans-serif;
+      color: white;
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+
+    .card-untere-reihe {
+      padding: 30px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    a:hover {
+      background-color: #2a2c6b;
+      color: #dcd6e0;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    /* Header */
+    header {
+      background-color: #1a012b;
+      padding: 30px 40px;
+      flex-shrink: 0;
+    }
+
+    header .logo {
+      font-weight: bold;
+      font-size: 1.6rem;
+      display: flex;
+      align-items: center;
+    }
+
+    header nav a {
+      text-decoration: none;
+      color: white;
+      margin: 0 10px;
+    }
+
+    header nav a:hover {
+      color: #ffcc00;
+      background-color: transparent;
+    }
+
+    header .btn-discord {
+      background: #4b1d69;
+      padding: 6px 12px;
+      border-radius: 6px;
+      color: white;
+      text-decoration: none;
+      margin-left: 10px;
+    }
+
+    .btn-discord:hover {
+      border-color: #9b5de5;
+      background-color: #5b2a86;
+    }
+
+    /**********************************************************************************************************/
+
+    .bracket-wrapper {
+      width: 100%;
+      /*height: 100vh;*/
+      min-height: calc(100vh - 160px);
+      overflow: auto;
+      position: relative;
+    }
+
+    .bracket {
+      display: flex;
+      gap: 100px;
+      justify-content: center;
+      align-items: flex-start;
+      position: relative;
+      min-width: max-content;
+      padding: 40px;
+    }
+
+    .round {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      gap: 60px;
+      position: relative;
+    }
+
+    .round-title {
+      text-align: center;
+      color: white;/*55d4ff*/
+      margin-bottom: 10px;
+      font-weight: bold;
+      /*text-transform: uppercase;*/
+      font-size: 24px;
+    }
+
+    .match {
+      background-color: #2a2c6b;
+      color: white;
+      border-radius: 12px;
+      padding: 12px;
+      min-width: 220px;
+      position: relative;
+      box-shadow: 0 0 10px #0e1c2f;
+      cursor: pointer;
+    }
+
+    .team {
+      display: flex;
+      justify-content: space-between;
+      padding: 4px 0;
+    }
+
+    .vs {
+      text-align: center;
+      margin: 5px 0;
+      color: white;
+      font-weight: bold;
+    }
+
+    svg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .modal {
+      display: none; /* Standardmäßig versteckt */
+      position: fixed;
+      z-index: 1000; /* Setzt es im Vordergrund */
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz */
+      justify-content: center;
+      align-items: center;
+    }
+
+    /* Modal-Inhalt */
+    .modal-content {
+      background-color: #d4d4d4;
+      color: black;
+      padding: 20px;
+      border-radius: 10px;
+      width: 50%;
+      max-width: 600px;
+      margin: auto;
+      text-align: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+
+    #modalDetails { margin-top: 5px; }
+
+    #maps-container {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .maps-row {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .map-box {
+      padding: 10px;
+      border: 2px solid;
+      border-Radius: 5px;
+      background-Color: #f9f9f9;
+      text-Decoration: none;
+      color:#333;
+      display: inline-block;
+      min-Width: 120px;
+      text-Align: center;
+    }
+
+    .map-box.blue {
+      border-color: blue;
+    }
+
+    .map-box.red {
+      border-color: red;
+    }
+
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 30px;
+      cursor: pointer;
+      color: #000;
+    }
+
+    .player-pill {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--tertiary-color); /*#1e293b;*/
+      border-radius: 999px;
+      border: 1px solid #55d4ff;/*55d4ff 5ce1e6*/
+      padding: 6px 12px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .player-pill .name {
+      font-weight: 500;
+      color: white;
+    }
+
+    .player-pill .score {
+      font-weight: bold;
+      color: white;/*55d4ff*/
+    }
+
+    .player-pill.winner {
+      background-color: #16a34a; /*16a34a*/
+      border-color: #22c55e;/*22c55e*/
+      color: #fff;
+    }
+
+    .player-pill.winner .score {
+      color: #ffffff;
+      font-weight: bold;
+    }
+
+    .player-pill.winner .name {
+      font-weight: bold;
+    }
+
+    .site-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .button {
+      background-color: var(--primary-color);
+      color: var(--text-color);
+      padding: 1vh 2vw;
+      font-size: 1.5vw;
+      border-radius: var(--border-radius);
+      text-decoration: none;
+      box-shadow: 0 0 10px #0e1c2f;
+      border-radius: 12px;
+    } 
+
+    .button:hover{
+      color: #ffcc00;
+    }
+
+    .button-container .button {
+      text-align: center;
+      padding: 1em;
+      font-size: clamp(0.9rem, 3.5vw, 1.2rem);
+      justify-content: center;
+    }
+
+    .button-container {
+      display: flex;
+      justify-content: center;   
+      margin-top: 20px;          
+    }
+  </style>
+</head>
+<body>
+
+  <!--<header>
+    <a href="index.html" class="button" id="back-button">
+      <span>Zurück</span>
+    </a>
+    <h1>GeoBundesliga Relegation</h1>
+  </header>-->
+
+  <header class="site-header">
+    <div class="logo">
+    <img src="../../../icon.png" alt="Icon" style="height: 1.5em; margin-right: 0.25em;" />
+    <nav class="d-flex align-items-center">
+      <a href="../archive.html">Geo Bundesliga</a>
+    </nav>
+    </div>
+    <nav class="d-flex align-items-center">
+      <a href="untereReihe/archive/archive.html">Archiv</a>
+      <a
+        href="https://docs.google.com/document/d/1InAqAS-TSFhilSsoxQJZFee-SdjD0VU_6mBI3aWo5GQ/edit?usp=sharing">Regelwerk</a>
+      <a href="untereReihe/mapbot/mapbot.html">Map Bot</a>
+      <a href="untereReihe/stats/stats.html">Statistiken</a>
+      <a href="https://discord.gg/3YkaPPTp" class="btn-discord">DACH Discord</a>
+    </nav>
+  </header>
+  
+  <section class="text-center mt-5">
+    <h1 style="font-size: 2.5rem; font-weight: bold; text-align: center; margin-top: 20px;">Geo Bundesliga Relegation</h1>
+  </section>
+
+  <div class="button-container">
+    <a href="https://forms.gle/9PdqkQnRJ4VPEX4e8" class="button" target="_blank">
+      <span>Spieldatum einreichen</span>
+    </a>
+  </div>
+  
+  <div class="bracket-wrapper">
+    <div class="bracket" id="bracket">
+      <div class="round">
+        <div class="round-title">Liga 1-2</div>
+        <div class="match" id="rele-1_2"></div>
+      </div>
+      <div class="round">
+        <div class="round-title">Liga 2-3</div>
+        <div class="match" id="rele-2_3_1"></div>
+        <div class="match" id="rele-2_3_2"></div>
+      </div>
+      <div class="round">
+        <div class="round-title">Liga 3-4</div>
+        <div class="match" id="rele-3_4_1"></div>
+        <div class="match" id="rele-3_4_2"></div>
+      </div>
+      <div class="round">
+        <div class="round-title">Liga 4-5</div>
+        <div class="match" id="rele-4_5"></div>
+      </div>
+    </div>
+    <svg id="lines"></svg>
+  </div>
+
+  <!-- Modal-Container -->
+  <div id="gameModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closePopup()">&times;</span>
+      <h2 id="modalTitle">Spielinformationen</h2>
+      <p id="modalDetails">Details zum Spiel werden hier angezeigt.</p>
+      <div id="maps-container"></div>
+    </div>
+  </div>  
+
+  <!-- Modal für Spielzusammenfassungen 
+  <div id="gameModal" class="modal">
+      <div class="modal-content">
+          <span class="close" onclick="closePopup()">&times;</span>
+          <div class="popup-title">
+              <h4 id="modalTitle"></h4>
+          </div>
+          <p id="modalDetails"></p>
+          <div id="maps-container"></div>
+      </div>
+  </div>  -->
+
+  <script>
+    const sheetID = "1LSKX1Nx3OIUcUc8D24b-BA_IGCqEo_FA-6ey0LbpLAo";
+    const spreadsheetName = "Playoffs_Relegation";
+    const range = "A15:H100";
+    const url = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?sheet=${spreadsheetName}&range=${range}`;
+
+    const matchMap = {
+      "Relegation Liga 1-2": "rele-1_2",
+      "Relegation Liga 2-3 Spiel 1": "rele-2_3_1",
+      "Relegation Liga 2-3 Spiel 2": "rele-2_3_2",
+      "Relegation Liga 3-4 Spiel 1": "rele-3_4_1",
+      "Relegation Liga 3-4 Spiel 2": "rele-3_4_2",
+      "Relegation Liga 4-5": "rele-4_5",
+    };
+
+    function openModal(matchData) {
+      const modal = document.getElementById('gameModal');
+      const modalTitle = document.getElementById('modalTitle');
+      const modalDetails = document.getElementById('modalDetails');
+
+      modalTitle.innerHTML = `${
+        matchData.score != "N/A" ? '<span style="color:blue;">|</span>' : ""
+      } ${matchData.blau} vs ${matchData.rot} ${
+        matchData.score != "N/A" ? '<span style="color:red;">|</span>' : ""
+      }`;
+
+      modalDetails.innerHTML = `
+        <strong>Runde:</strong> ${matchData.round}<br>
+        <strong>Match ID:</strong> ${matchData.matchid}<br>
+        <strong>Ergebnis:</strong> ${
+          matchData.score || "N/A"
+        }`;
+
+
+
+      //const mapsContainer = document.getElementById('div');
+      //mapsContainer.id = "maps-container";
+      const mapsContainer = document.getElementById('maps-container');
+      mapsContainer.innerHTML = '';
+      mapsContainer.style.marginTop = '20px';
+
+      if (matchData.maps && matchData.maps.length > 0) {
+        const maps = matchData.maps;
+        const rows = [[], [], []];
+
+        for (let i = 0; i < maps.length; i++) {
+          if (i < 2) rows[0].push(maps[i]);
+          else if (i < 5) rows[1].push(maps[i]);
+          else rows[2].push(maps[i]);
+        }
+
+        rows.forEach(row => {
+          if (row.length > 0) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'maps-row';
+            rowDiv.style.display = "flex";
+            rowDiv.style.justifyContent = "space-around";
+            rowDiv.style.marginBottom = "10px";
+
+            row.forEach((mapInfo) => {
+              const [mapName, winner, matchtype, link] = mapInfo;
+
+              const mapBox = document.createElement('a');
+              if (link) {
+                mapBox.href = link;
+                mapBox.target = "_blank";
+              } else {
+                mapBox.style.pointerevents = "none";
+              }
+              //mapBox.textContent = game.title;
+              //mapBox.classList.add('map-box');
+
+              mapBox.style.padding = "10px";
+              mapBox.style.borderRadius = "5px";
+              mapBox.style.display = "inline-block";
+              mapBox.style.minWidth = "120px";
+              mapBox.style.color = "#333";
+              mapBox.style.textDecoration = "none";
+              mapBox.style.border = "1px solid #ccc";
+              mapBox.style.backgroundColor = "#f9f9f9";
+              mapBox.style.textAlign = "left";
+
+              if (winner === "blue") {
+                mapBox.style.borderLeft = "5px solid blue";
+              } else if (winner === "red") {
+                mapBox.style.borderRight = "5px solid red";
+              }
+
+              // Inhalt mit Mapname & Matchtyp
+              mapBox.innerHTML = `
+                <div>${mapName}</div>
+                <div style="font-size: 0.8em; color: #777;">${
+                  matchtype == "move"
+                    ? "Moving"
+                    : matchtype == "ppd"
+                    ? "Pinpointing Duel"
+                    : matchtype == "no move"
+                    ? "NM"
+                    : "NMPZ"
+                }</div>
+              `;
+
+              rowDiv.appendChild(mapBox);
+            });
+
+            mapsContainer.appendChild(rowDiv);
+          }
+        });
+      } else {
+        mapsContainer.innerHTML = '<em>Keine Maps verfügbar</em>';
+      }
+      
+      //modalDetails.appendChild(mapsContainer);
+      modal.style.display = 'flex';
+    }
+
+    function closePopup() {
+      document.getElementById("gameModal").style.display = "none";
+    }
+
+    window.addEventListener("click", function (event) {
+      const modal = document.getElementById("gameModal");
+      if (event.target === modal) {
+        closePopup();
+      }
+    });
+
+    function fetchSheetData() {
+      fetch(url)
+        .then(res => res.text())
+        .then(text => JSON.parse(text.substr(47).slice(0, -2)))
+        .then(jsonData => {
+          const matchData = jsonData.table.rows.map(row => ({
+            round: row.c[0]?.v || "Unbekannt",
+            blau: row.c[1]?.v || "-",
+            rot: row.c[2]?.v || "-",
+            score: row.c[3]?.v || "N/A",
+            winner: row.c[4]?.v || "-",
+            maps: JSON.parse(row.c[5]?.v || "[]"),
+            matchid: row.c[6]?.v || "Unbekannt",
+          }));
+
+          matchData.forEach(match => {
+            const id = matchMap[match.round];
+            if (!id) return;
+            const matchBox = document.getElementById(id);
+            const [score1, score2] = match.score.split(":");
+            const isWinner1 = match.blau === match.winner;
+            const isWinner2 = match.rot === match.winner;
+            /*matchBox.innerHTML = `
+              <div class="team">${match.blau} <span>${score1 || 0}</span></div>
+              <div class="vs">VS</div>
+              <div class="team">${match.rot} <span>${score2 || 0}</span></div>
+            `;*/
+            /*matchBox.innerHTML = `
+              <div class="team"><span class="player-pill">${match.blau} <strong>${score1 || 0}</strong></span></div>
+              <div class="vs">VS</div>
+              <div class="team"><span class="player-pill">${match.rot} <strong>${score2 || 0}</strong></span></div>
+            `;*/
+            matchBox.innerHTML = `
+              <div class="team">
+                <div class="player-pill ${isWinner1 ? 'winner' : ''}">
+                  <span class="name">${match.blau}</span>
+                  <span class="score">${score1}</span>
+                </div>
+              </div>
+              <div class="vs">VS</div>
+              <div class="team">
+                <div class="player-pill ${isWinner2 ? 'winner' : ''}">
+                  <span class="name">${match.rot}</span>
+                  <span class="score">${score2}</span>
+                </div>
+              </div>
+            `;
+
+            matchBox.onclick = () => openModal(match);
+          });
+        });
+    }
+
+    function curvedPath(x1, y1, x2, y2) {
+      const midX = (x1 + x2) / 2;
+      return `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`;
+    }
+
+    function rightAnglePath(x1, y1, x2, y2) {
+      const midX = (x1 + x2) / 2;
+      return `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`;
+    }
+
+    function connect(fromId, toId) {
+      const from = document.getElementById(fromId);
+      const to = document.getElementById(toId);
+      if (!from || !to) return;
+
+      const bracket = document.querySelector('.bracket');
+      const fRect = from.getBoundingClientRect();
+      const tRect = to.getBoundingClientRect();
+      const bRect = bracket.getBoundingClientRect();
+
+      const xFrom = fRect.left + fRect.width / 2 - bRect.left;
+      const xTo = tRect.left + tRect.width / 2 - bRect.left;
+
+      const yFromMiddle = fRect.top + fRect.height / 2 - bRect.top;
+      const yToMiddle = tRect.top + tRect.height / 2 - bRect.top;
+
+      const yFromBottom = fRect.bottom - bRect.top;
+      const yToTop = tRect.top - bRect.top;
+
+      const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+
+      const isVertical = Math.abs(xFrom - xTo) < 10;
+
+      if (isVertical) {
+        path.setAttribute("d", `M ${xFrom} ${yFromBottom} V ${yToTop}`);
+      } else {
+        const x1 = fRect.right - bRect.left;
+        const y1 = yFromMiddle;
+        const x2 = tRect.left - bRect.left;
+        const y2 = yToMiddle;
+        const midX = (x1 + x2) / 2;
+        path.setAttribute("d", `M ${x1} ${y1} H ${midX} V ${y2} H ${x2}`);
+      }
+
+      path.setAttribute("stroke", "#5ce1e6");
+      path.setAttribute("stroke-width", "2");
+      path.setAttribute("fill", "none");
+
+      document.getElementById('lines').appendChild(path);
+    }
+
+
+
+    function drawLines() {
+      const svg = document.getElementById('lines');
+      const bracket = document.querySelector('.bracket');
+      svg.innerHTML = '';
+      svg.setAttribute("width", bracket.scrollWidth);
+      svg.setAttribute("height", bracket.scrollHeight);
+
+      connect("rele-2_3_1", "rele-2_3_2");
+      connect("rele-3_4_1", "rele-3_4_2");
+    }
+
+    window.onload = () => {
+      fetchSheetData();
+      setTimeout(() => {
+        requestAnimationFrame(drawLines);
+      }, 1000);
+    };
+    window.onresize = drawLines;
+  </script>
+</body>
+</html>

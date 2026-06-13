@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geobundesliga - S5 Preseason</title>
+
+    <link rel="stylesheet" href="default2.css" />
+    <link rel="icon" href="../../../icon.png" />
+    <style>
+      body {
+        overflow: auto;
+        background-image: url("../../../hintergrund.png");
+        background-size: cover;
+        background-position: center;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2vh;
+      }
+
+      #preseason-table {
+        margin-top: 4vh;
+        margin-left: 2vw;
+        width: 80%;
+      }
+
+      .link {
+        color: white;
+        text-decoration: none;
+      }
+
+      .link:hover {
+        color: yellow;
+        text-decoration: underline;
+      }
+      /* ------------------------------------------------------------------------------------------------------*/
+      header {
+        background-color: #1a012b;
+        padding: 30px 40px;
+        flex-shrink: 0;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header .logo {
+        font-weight: bold;
+        font-size: 1.6rem;
+        display: flex;
+        align-items: center;
+      }
+
+      header nav a {
+        text-decoration: none;
+        color: white;
+        margin: 0 10px;
+      }
+
+      header nav a:hover {
+        color: #ffcc00;
+        background-color: transparent;
+      }
+
+      header .btn-discord {
+        background: #4b1d69;
+        padding: 6px 12px;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        margin-left: 10px;
+      }
+
+      .btn-discord:hover {
+        border-color: #9b5de5;
+        background-color: #5b2a86;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="site-header">
+      <div class="logo">
+        <img
+          src="../../../icon.png"
+          alt="Icon"
+          style="height: 1.5em; margin-right: 0.25em"
+        />
+        <nav class="d-flex align-items-center">
+          <a href="../archive.html">Geo Bundesliga Preseason</a>
+        </nav>
+      </div>
+
+      <nav class="d-flex align-items-center">
+        <a href="untereReihe/archive/archive.html">Archiv</a>
+        <a
+          href="https://docs.google.com/document/d/11WWWQ7A1m6n9R86trTNLUGLqALgalhZpOkxdVoMzFAg/edit?usp=sharing"
+          >Regelwerk</a
+        >
+        <a href="untereReihe/mapbot/mapbot.html">Map Bot</a>
+        <!-- <a href="untereReihe/stats/stats.html">Statistiken</a> -->
+        <a href="https://discord.gg/3YkaPPTp" class="btn-discord"
+          >DACH Discord</a
+        >
+      </nav>
+    </header>
+
+    <br /><br />
+
+    <!--<header>
+    <a href="index.html" class="button" id="back-button">
+      <span>Zurück</span>
+    </a>
+    <h1>Preseason</h1>
+  </header>-->
+    <div class="container">
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSfLEKZTVUqAv687rJ3ikut7n3p6aWt3kU5zs3W6Fndy44GrmQ/viewform"
+        class="button"
+        id="resignup-button"
+        target="_blank"
+      >
+        <span>Signup (nur Neue)</span>
+      </a>
+    </div>
+    <div style="max-height: 800px; overflow-y: auto">
+      <table id="preseason-table">
+        <thead>
+          <tr>
+            <th colspan="6">Preseason Zwischenstand</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>Dach 2'30 Move</th>
+            <th>World 3' Move</th>
+            <th>World Pinpointable 1'30 NM</th>
+            <th>Dach 1'30 NM</th>
+            <th>A Pro World 1' NM</th>
+            <th>An Arbitrary Rural World 1'30 NM</th>
+            <th>A Competitive World 1' NMPZ</th>
+            <th>Terminus '30 NMPZ</th>
+            <th>A Rural World 1' NMPZ</th>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>Platz</th>
+            <th>Spieler</th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/0ex1Y5sKtIi7IRUT"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/XR2uj4btyTzG7tbf"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/0KJlkLNEwwz7nLpH"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/9a441BnvBy0CawR3"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/zwfwL4w1o192PYjB"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/LbgstKWnADeqsQ49"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/rwcGY9lOq8ViREiC"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/VA0xWaiQ4ApSHqYT"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/ghj5ZF40oJCujJAu"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>Average Score</th>
+            <th>Gesamtpunkte</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td colspan="13">Bisher keine Ergebnisse vorhanden</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", loadData);
+
+      function loadData() {
+        const sheetID = "15gQitrtG8zeWrCPbExC1fPmiDFlIp959TFEqHLxOaL0";
+        const spreadsheetGID = "0";
+        const range = "B11:N110";
+        const queryURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?gid=${spreadsheetGID}&range=${range}`;
+
+        fetch(queryURL)
+          .then((response) => response.text())
+          .then((data) => {
+            const jsonData = JSON.parse(data.substring(47, data.length - 2));
+            const rows = jsonData.table.rows;
+            const tbody = document.querySelector("#preseason-table tbody");
+            tbody.innerHTML = "";
+
+            let maxValues = Array(13).fill(-Infinity);
+            let colIndexes = [4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+            // Finde die maximalen Werte in den relevanten Spalten
+            rows.forEach((row) => {
+              colIndexes.forEach((colIndex) => {
+                let value = parseFloat(row.c[colIndex]?.v) || 0;
+                if (value > maxValues[colIndex]) {
+                  maxValues[colIndex] = value;
+                }
+              });
+            });
+
+            // Erstelle die Tabellenzeilen nur wenn Spielername vorhanden ist
+            rows.forEach((row) => {
+              const playerName = row.c[1]?.v; // Spalte C = Spieler*in
+
+              if (
+                !playerName ||
+                playerName === "" ||
+                playerName === "NA" ||
+                playerName === "#N/A" ||
+                playerName === "#NV"
+              ) {
+                return; // überspringe Zeilen ohne Spielername
+              }
+
+              let tr = document.createElement("tr");
+              let newOrder = [0, 1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 2, 3];
+
+              newOrder.forEach((colIndex) => {
+                let cell = document.createElement("td");
+                let value = row.c[colIndex]?.v || "";
+                cell.textContent = !isNaN(value) ? Math.round(value) : value;
+
+                // Highlighten falls Wert gleich Maximum
+                if (
+                  colIndexes.includes(colIndex) &&
+                  parseFloat(value) === maxValues[colIndex]
+                ) {
+                  cell.style.backgroundColor = "#f3cf02";
+                }
+                tr.appendChild(cell);
+              });
+
+              tbody.appendChild(tr);
+            });
+
+            if (!tbody.hasChildNodes()) {
+              tbody.innerHTML =
+                "<tr><td colspan='13'>Bisher keine Ergebnisse vorhanden</td></tr>";
+            }
+          })
+          .catch((error) => {
+            console.error("Bisher keine Ergebnisse vorhanden:", error);
+            document.querySelector("#preseason-table tbody").innerHTML =
+              "<tr><td colspan='13'>Bisher keine Ergebnisse vorhanden</td></tr>";
+          });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,239 @@
+html {
+  min-height: 100%;
+  background: linear-gradient(to bottom right, #1a0033, #660066);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+body {
+  min-height: 100vh;
+  max-height: none;
+  margin: 0;
+  background-color: transparent;
+  background-image: url("../hintergrund.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  font-family: Verdana, sans-serif; /*system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;*/
+  overflow-x: hidden;
+}
+
+a {
+  text-decoration: none;
+}
+
+.site-header {
+  background-color: #1a012b;
+  padding: 30px 40px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.brand {
+  color: white;
+  font-weight: bold;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.brand:visited {
+  color: white;
+  background-color: transparent;
+}
+
+.brand:hover,
+.brand.active {
+  color: #ffcc00;
+  background-color: transparent;
+}
+
+.brand img {
+  height: 1.5em;
+  margin-right: 0.25em;
+}
+
+.main-nav {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+.main-nav a {
+  color: white;
+  margin: 0;
+  padding: 0.35rem 0.45rem;
+  border-radius: 6px;
+}
+
+.main-nav a:visited {
+  color: white;
+}
+
+.main-nav a:hover,
+.main-nav a.active {
+  color: #ffcc00;
+  background-color: transparent;
+}
+
+.nav-icon {
+  display: none;
+}
+
+.btn-discord {
+  background: #4b1d69;
+  padding: 6px 12px !important;
+  border-radius: 6px;
+  color: white;
+  margin-left: 0.35rem;
+  white-space: nowrap;
+}
+
+.btn-discord:hover {
+  background-color: #5b2a86 !important;
+}
+
+.btn-discord .nav-icon {
+  display: inline-block;
+  margin-right: 0.35rem;
+}
+
+.page-shell {
+  width: min(1240px, calc(100% - 32px));
+  margin: 2rem auto;
+}
+
+.page-title {
+  color: white;
+  font-size: clamp(2rem, 1.35rem + 3vw, 2.8rem);
+  font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
+  margin: 0 0 1.5rem;
+}
+
+.surface-card {
+  background-color: #2b2a2cbe;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.28);
+  padding: 1rem;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 1rem;
+}
+
+.page-button,
+.info-item,
+main button:not(.result-tab) {
+  background-color: #330351;
+  color: white;
+  border: 0;
+  border-radius: 8px;
+  font-weight: 800;
+  padding: 0.75rem 1rem;
+  text-align: center;
+}
+
+.page-button:hover,
+.info-item:hover,
+main button:not(.result-tab):hover {
+  background-color: #2a2c6b;
+  color: #dcd6e0;
+}
+
+@media (max-width: 767.98px) {
+  body {
+    background-attachment: scroll;
+  }
+
+  .site-header {
+    flex-direction: column;
+    justify-content: center;
+    padding: 16px;
+  }
+
+  .main-nav {
+    width: 100%;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem;
+  }
+
+  .page-shell {
+    margin: 1.5rem auto;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .site-header {
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.75rem;
+  }
+
+  .brand {
+    flex-shrink: 0;
+  }
+
+  .brand img {
+    height: 2rem;
+    margin-right: 0;
+  }
+
+  .brand-text,
+  .nav-label {
+    display: none;
+  }
+
+  .nav-icon {
+    display: inline-block;
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  .main-nav {
+    flex: 1;
+    justify-content: flex-end;
+    gap: 0.2rem;
+    width: auto;
+  }
+
+  .main-nav a,
+  .btn-discord {
+    align-items: center;
+    display: inline-flex;
+    height: 42px;
+    justify-content: center;
+    min-width: 42px;
+    padding: 0 !important;
+  }
+
+  .btn-discord .nav-icon {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 420px) {
+  .main-nav {
+    gap: 0.15rem;
+  }
+
+  .main-nav a,
+  .btn-discord {
+    min-width: 38px;
+  }
+}

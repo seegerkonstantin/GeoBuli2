@@ -1,0 +1,187 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    background-attachment: fixed;
+    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
+    overflow-y: auto; /* Verhindert horizontales Scrollen */
+    margin: 20px;
+    padding: 0;
+    max-height: 300px;
+}
+
+header {
+    display: flex;
+    flex-direction: column; /* Ermöglicht vertikale Ausrichtung */
+    justify-content: flex-start; /* Startet den Inhalt oben im Header */
+    align-items: center; /* Zentriert die Überschrift und den Button horizontal */
+    padding-top: 20px; /* Fügt etwas Abstand von oben hinzu */
+}
+
+header h1 {
+    background-color: #2a2c6b;
+    padding: 10px;
+    margin-bottom: 40px; /* Abstand nach unten zur Überschrift */
+    border-radius: 8px;
+    color: #fff;
+    font-size: 36px; /* Vergrößert die Schrift */
+    text-align: center; /* Zentriert die Überschrift */
+    display: inline-block; /* Macht den Kasten nur so breit wie der Inhalt */
+    width: 50%; /* Setzt die Breite auf 50% des Containers */
+}
+
+/* Slideshow-Container */
+.slideshow-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    position: relative;
+}
+
+/* Verhindere, dass die Tabelle durch Pfeile verschoben wird */
+.match-table {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.table-container {
+    margin-bottom: 20px;
+}
+
+table {
+    width: auto;
+    border-collapse: collapse;
+    margin: 0 auto;
+    border: 1px solid #ddd;
+    background-color: rgb(212, 212, 212); /* Setzt den Hintergrund der Tabelle auf hellgrau */
+    table-layout: fixed;
+}
+
+th, td {
+    border: 1px solid black;
+    padding: 6px; /* Weniger Padding für schmalere Zellen */
+    text-align: center;
+    overflow: hidden;
+}
+
+th {
+    background-color: #2f2f7f;
+    color: white;
+}
+
+.hoverable:hover {
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+
+/* ab hier Modal-Gedöns */
+/* Der Modal-Hintergrund (leicht transparent und über dem Inhalt) */
+.modal {
+    display: none; /* Standardmäßig versteckt */
+    position: fixed;
+    z-index: 1000; /* Setzt es im Vordergrund */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Halbtransparentes Schwarz */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Modal-Inhalt */
+.modal-content {
+    background-color: rgb(212, 212, 212); /* Setzt den Hintergrund des Modals auf hellgrau */
+    padding: 20px;
+    border-radius: 10px;
+    width: 50%;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    position: relative;
+    line-height: 1.6;
+}
+
+/* Schließen-Knopf (X) */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 30px;
+    cursor: pointer;
+    color: #000;
+}
+
+.player-info {
+    margin-top: 1em;
+    margin-bottom: 1em;
+    border-collapse: collapse;
+    border: none;
+  }
+  
+  .player-info td {
+    padding: 0.2em 0.5em;
+    vertical-align: center;
+    border: none;
+    text-align: left;
+  }
+  
+  .player-info .label {
+    font-weight: bold;
+    text-align: right;
+    white-space: nowrap;
+  }
+
+
+/* Make tables responsive on smaller screens */
+@media (max-width: 768px) {
+
+    header h1 {
+        font-size: clamp(1.5em, 5vw, 2.5em);
+        text-align: center;
+    }
+
+    .table-container {
+        flex-direction: column; /* Stack tables vertically */
+        align-items: center; /* Center them horizontally */
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+    }
+
+    .table-wrapper table {
+        border-collapse: collapse;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        width: 100%;
+        font-size: 0.85em; /* smaller font */
+    }
+
+    .table-wrapper th,
+    .table-wrapper td {
+        padding: 4px 6px; /* reduce padding */
+    }
+
+    .table-container table {
+        width: 100%; /* Full width on small screens */
+        max-width: 100%;
+        overflow-x: auto; /* Allow horizontal scroll if table is too wide */
+        display: block;
+    }
+
+    .table-title {
+        font-size: 1em; /* Slightly smaller headings */
+    }
+}

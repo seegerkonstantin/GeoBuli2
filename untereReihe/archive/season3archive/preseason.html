@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geobundesliga - 1. Liga</title>
+
+    <link rel="stylesheet" href="defaultS3.css" />
+    <style>
+      body {
+        overflow: auto;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2vh;
+      }
+
+      #preseason-table {
+        margin-top: 4vh;
+        margin-left: 2vw;
+        width: 80%;
+      }
+
+      .link {
+        color: white; /* Standardfarbe */
+        text-decoration: none; /* Unterstreichung entfernen */
+      }
+
+      .link:hover {
+        color: yellow; /* Farbe beim Hover ändern */
+        text-decoration: underline; /* Unterstreichung beim Hover hinzufügen */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="../archive.html" class="button" id="back-button">
+        <span>Archiv</span>
+      </a>
+      <h1>Preseason</h1>
+    </header>
+    <div class="container">
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLScWuuGcI5lzBZm8w0eIMca4I0WmfScB_jSp24oGR2EyxXZMHQ/viewform"
+        class="button"
+        id="resignup-button"
+        target="_blank"
+      >
+        <span>Signup (nur Neue)</span>
+      </a>
+    </div>
+    <div style="max-height: 800px; overflow-y: auto">
+      <table id="preseason-table">
+        <thead>
+          <tr>
+            <th colspan="4">Preseason Zwischenstand</th>
+          </tr>
+          <tr>
+            <th></th>
+            <th></th>
+            <th>A Community Germany 2'30 Move</th>
+            <th>An Official World 3' Move</th>
+            <th>A Balanced Germanosphere 1'30 NM</th>
+            <th>AI Generated World 1' NM</th>
+            <th>A Pro World '40 NM</th>
+            <th>A Skewed Rural World 1' NMPZ</th>
+            <th>An Arbitrary World '40 NMPZ</th>
+            <th></th>
+            <th></th>
+          </tr>
+          <tr>
+            <th>Platz</th>
+            <th>Spieler</th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/O71Uq7ISM8BTvtPw"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/afrSrVDhWvFlJei2"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/3fyyj4P1tCuOiSEf"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/GVVlAacj7rrXqXIg"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/qQ5IU5PvnmoJSEd7"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/wQhrlSOyA6qIhHV5"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>
+              <a
+                href="https://www.geoguessr.com/challenge/CQdH8Cxsv9hgLAy2"
+                class="link"
+                target="_blank"
+                >Link</a
+              >
+            </th>
+            <th>Average Score</th>
+            <th>Gesamtpunkte</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr>
+            <td colspan="10">Keine Daten verfügbar</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", loadData);
+
+      function loadData() {
+        const sheetID = "1m-ptdit6OAI5ZY_iqM-SkyS4uLNS7hmrPxj8vMI0CV4";
+        const spreadsheetGID = "0";
+        const range = "B12:L77";
+        const queryURL = `https://docs.google.com/spreadsheets/d/${sheetID}/gviz/tq?gid=${spreadsheetGID}&range=${range}`;
+
+        fetch(queryURL)
+          .then((response) => response.text())
+          .then((data) => {
+            const jsonData = JSON.parse(data.substring(47, data.length - 2));
+            const rows = jsonData.table.rows;
+            const tbody = document.querySelector("#preseason-table tbody");
+            tbody.innerHTML = "";
+
+            let maxValues = Array(11).fill(-Infinity); // Initialisiere die max-Werte für die Spalten 3-9
+            let colIndexes = [4, 5, 6, 7, 8, 9, 10]; // Indizes der relevanten Spalten (3-9)
+
+            // Finde die maximalen Werte in den relevanten Spalten
+            rows.forEach((row) => {
+              colIndexes.forEach((colIndex) => {
+                let value = parseFloat(row.c[colIndex]?.v) || 0;
+                if (value > maxValues[colIndex]) {
+                  maxValues[colIndex] = value;
+                }
+              });
+            });
+
+            // Erstelle die Tabellenzeilen mit Highlighting
+            rows.forEach((row) => {
+              let tr = document.createElement("tr");
+              let newOrder = [0, 1, 4, 5, 6, 7, 8, 9, 10, 2, 3];
+
+              newOrder.forEach((colIndex) => {
+                let cell = document.createElement("td");
+                let value = row.c[colIndex]?.v || "";
+                cell.textContent = !isNaN(value) ? Math.round(value) : value;
+
+                // Falls Wert in einer relevanten Spalte gleich dem Maximum ist, einfärben
+                if (
+                  colIndexes.includes(colIndex) &&
+                  parseFloat(value) === maxValues[colIndex]
+                ) {
+                  cell.style.backgroundColor = "#f3cf02";
+                }
+                tr.appendChild(cell);
+              });
+              tbody.appendChild(tr);
+            });
+          })
+          .catch((error) => {
+            console.error("Fehler beim Laden der Daten:", error);
+            document.querySelector("#preseason-table tbody").innerHTML =
+              "<tr><td colspan='11'>Fehler beim Laden der Daten</td></tr>";
+          });
+      }
+    </script>
+  </body>
+</html>

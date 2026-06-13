@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistiken</title>
+  <link rel="icon" href="../../icon.png" />
+  <link rel="stylesheet" href="stats.css?v=2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../shared-page.css" />
+  <style>
+    .table-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+
+    .table-container > div {
+      flex: 1 1 420px;
+      min-width: 0;
+    }
+
+    .table-title {
+      color: #ffffff;
+      text-align: center;
+      font-size: 1.2em;
+      margin-bottom: 8px;
+    }
+
+    .stats-panel {
+      overflow-x: auto;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    table {
+      width: 100%;
+    }
+
+    .stats-panel table {
+      table-layout: auto;
+    }
+
+    .stats-panel th:first-child,
+    .stats-panel td:first-child {
+      width: 2.25rem;
+      min-width: 2.25rem;
+      padding-left: 0.35rem;
+      padding-right: 0.35rem;
+    }
+
+    .stats-panel th:nth-child(2),
+    .stats-panel th:nth-child(3),
+    .stats-panel th:nth-child(4) {
+      white-space: nowrap;
+    }
+
+    .stats-panel th:nth-child(4),
+    .stats-panel td:nth-child(4) {
+      width: 4.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <a class="brand" href="../../index.html" aria-label="Geo Bundesliga Startseite">
+      <img src="../../icon.png" alt="Icon" />
+      <span class="brand-text">Geo Bundesliga</span>
+    </a>
+    <nav class="main-nav" aria-label="Hauptnavigation">
+      <a href="../archive/archive.html" aria-label="Archiv" title="Archiv"><i class="bi bi-archive nav-icon"></i><span class="nav-label">Archiv</span></a>
+      <a href="https://docs.google.com/document/d/11WWWQ7A1m6n9R86trTNLUGLqALgalhZpOkxdVoMzFAg/edit?usp=sharing" aria-label="Regelwerk" title="Regelwerk"><i class="bi bi-journal-text nav-icon"></i><span class="nav-label">Regelwerk</span></a>
+      <a href="../mapbot/mapbot.html" aria-label="Map Bot" title="Map Bot"><i class="bi bi-geo-alt nav-icon"></i><span class="nav-label">Map Bot</span></a>
+      <a class="active" href="stats.html" aria-label="Statistiken" title="Statistiken"><i class="bi bi-bar-chart nav-icon"></i><span class="nav-label">Statistiken</span></a>
+      <a href="https://discord.gg/2p8meFK2" class="btn-discord" aria-label="DACH Discord" title="DACH Discord"><i class="bi bi-discord nav-icon"></i><span class="nav-label">DACH Discord</span></a>
+    </nav>
+  </header>
+
+  <main class="page-shell">
+    <h1 class="page-title">Statistiken</h1>
+    <section class="surface-card stats-panel">
+      <div class="table-container">
+        <div>
+          <h2 class="table-title">Liga 1</h2>
+          <div class="table-wrapper">
+            <table id="data-table-1">
+              <thead>
+                <tr id="table-header-1"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+              </thead>
+              <tbody id="table-body-1"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="table-title">Liga 2</h2>
+          <div class="table-wrapper">
+            <table id="data-table-2">
+              <thead>
+                <tr id="table-header-2"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+              </thead>
+              <tbody id="table-body-2"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div>
+          <h2 class="table-title">Liga 3</h2>
+          <div class="table-wrapper">
+            <table id="data-table-3">
+              <thead>
+                <tr id="table-header-3"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+              </thead>
+              <tbody id="table-body-3"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div>
+          <h2 class="table-title">Liga 4</h2>
+          <div class="table-wrapper">
+            <table id="data-table-4">
+              <thead>
+                <tr id="table-header-4"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+              </thead>
+              <tbody id="table-body-4"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <div>
+          <h2 class="table-title">Liga 5</h2>
+          <div class="table-wrapper">
+            <table id="data-table-5">
+              <thead>
+                <tr id="table-header-5"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+              </thead>
+              <tbody id="table-body-5"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="statsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modalTitle">Spielerstatistiken</h2>
+      <div id="modalDetails">Details zu einzelnen Spieler*innen werden hier angezeigt.</div>
+    </div>
+  </div>
+
+  <script src="stats.js?v=2"></script>
+  <script>
+    const liga1Stats = new StatsTable(
+      '1Ign2YJZ0edrj6ZH1Kd3d3qJ4dr4XWSiAAofW94hIobE',
+      'Player_stats',
+      'A3:AA200',
+      '',
+      'PlayerStats'
+    );
+
+    liga1Stats.initialize();
+  </script>
+</body>
+</html>

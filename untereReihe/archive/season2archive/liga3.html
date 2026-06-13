@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geobundesliga - 3. Liga</title>
+    <link rel="stylesheet" href="ligen.css">
+</head>
+<body>
+    <header>
+        <a href="../archive.html" class="back-button">
+            <span>Archiv</span>
+        </a>
+        <a href="liga2.html" class="league-button left">2. Liga</a>
+        <h1>3. Liga</h1>
+    </header>
+
+    <section class="tables-container">
+        <div class="league-table">
+            <table>
+                <colgroup>
+                    <col style="width: 10%;">
+                    <col style="width: 30%;">
+                    <col style="width: 8%;">
+                    <col style="width: 8%;">
+                    <col style="width: 8%;">
+                    <col style="width: 20%;">
+                    <col style="width: 15%;">
+                    <col style="width: 8%;">
+                    <col style="width: 17%;">
+                </colgroup>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Spieler*in</th>
+                        <th>P</th>
+                        <th>W</th>
+                        <th>L</th>
+                        <th>Map Win</th>
+                        <th>Health</th>
+                        <th>DACH</th>
+                        <th>Punkte</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5">Keine Daten verfügbar</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="match-tables">
+            <div class="match-table" id="current-matches">
+                <table>
+                    <thead>
+                        <tr>
+                            <th colspan="4" class="week">Spielwoche</th>
+                        </tr>
+                        <tr>
+                            <th colspan="4" class="date">Datum</th>
+                        </tr>
+                        <tr>
+                            <th>Spieler*in Blau</th>
+                            <th>Spieler*in Rot</th>
+                            <th>Match ID</th>
+                            <th>Ergebnis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="4">Keine Daten verfügbar</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <section class="buttons-container">
+        <div class="arrow">
+            <a href="liga3spielplan.html">
+                ⬇️
+            </a>
+        </div>
+    </section>
+</body>
+<script src="tabellen.js">
+</script>
+<script>
+    // Instanziiere die Klassen für jede Liga
+const liga3 = new LeagueTable(
+        '1rzYKg1Xz4al00i29DRlgo8MHn2mSieFK2Il8Y2VD0fU',
+        'liga3',
+        'Spielplan Liga 3',
+        'P3:Y17', 
+        '',  
+        'L3S2'
+    );
+
+    // Lade die Daten für alle Ligen
+    liga3.initialize();
+</script>
+</html>

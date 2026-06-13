@@ -1,0 +1,382 @@
+html {
+    font-size: 16px; /* Basis-Schriftgröße für rem */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    background: linear-gradient(to bottom right, #1c1e4a, #74215d);
+    min-height: 100vh; /* Stellt sicher, dass es mindestens den Viewport abdeckt */
+    overflow-y: hidden; /* Verhindert horizontales Scrollen */
+    /*display: flex;*/
+    flex-direction: column;
+    align-items: center;
+}
+
+/*obere zeile buttons header*/
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw; /* Relative Breite */
+    height:8vh;
+    margin: 2vh 0; /* Abstand mit relativer Höhe */
+}
+
+header h1 {
+    background-color: #2a2c6b;
+    padding: 1vh 1vw; /* Innenabstand mit relativen Einheiten */
+    border-radius: 8px;
+    color: #fff;
+    font-size: 3rem; /* Schriftgröße bleibt stabil */
+    text-align: center;
+    width: 33%;
+    height:100%; /* Relativ zur Breite des Headers */
+}
+
+.back-button, .league-button {
+    background-color: #2a2c6b;
+    color: white;
+    padding: 1vh 2vw; /* Dynamisches Padding */
+    font-size: 1.5vw; /* Dynamische Schriftgröße */
+    border-radius: 8px;
+    text-decoration: none;
+    border: 2px solid white;
+}
+
+.back-button {
+    position: absolute; /* Fixiert den Button unabhängig vom Layout */
+    top: 2vh; /* Abstand vom oberen Rand */
+    left: 2vw; /* Abstand vom linken Rand */
+}
+
+.back-button:hover,.league-button:hover {
+    background-color: #74215d;
+}
+
+/* Linker Button (2. Liga) */
+.league-button.left {
+    order:-1;
+}
+
+/* Rechter Button (3. Liga) */
+.league-button.right {
+    order:1;
+}
+
+/* Haupt-Container für die Tabellen */
+.tables-container {
+    display: flex;
+    justify-content: space-between; /* Platz zwischen den Bereichen */
+    align-items: flex-start;
+    margin: 5vh;
+    padding: 10px;
+    height: 69vh;
+}
+
+/* Linker Bereich (Liga-Tabelle) */
+.league-table {
+    width: 47%;
+    height: 100%;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center; /* Horizontale Zentrierung */
+    align-items: center; /* Vertikale Zentrierung */
+    margin: auto; /* Falls es innerhalb eines Containers liegt */
+}
+
+
+table {
+    width: 80%; /* Passt Breite an, um Raum für zwei Tabellen nebeneinander zu lassen */
+    border-collapse: collapse;
+    background-color: rgb(212, 212, 212);
+    table-layout: fixed;
+    height: 100%; /* Übernimmt die volle Höhe des Containers */
+    overflow-y: auto; /* Ermöglicht Scrollen innerhalb der Tabelle */
+}
+
+
+th, td {
+    padding: 5px;
+    border: 1px solid #000;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+thead {
+    background-color: #2a2c6b;
+}
+
+thead th {
+    background-color: #2a2c6b;
+    color: white; /* Setzt die Schriftfarbe auf weiß */
+}
+
+
+tbody td {
+    height: 20px; /* Höhe des weißen Kastens */
+    text-align: center;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #000000; /* Grau für den Platzhaltertext */
+}
+
+/* Rechter Bereich für Match-Tabellen */
+.match-tables {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Zentriert die Match-Tabellen vertikal */
+    align-items: center; /* Zentriert die Match-Tabellen horizontal */
+    margin: auto;
+    width: 45%;
+    height: 100%;
+    gap: 1vh;
+}
+
+.match-table:first-of-type,
+.match-table:last-of-type {
+    overflow-y: auto;     /* Ermöglicht Scrollen innerhalb der Tabelle */
+    display: flex;
+    justify-content: center;  /* Horizontale Zentrierung */
+    width: 80%;
+}
+
+.match-table {
+    overflow-y: auto; /* Aktiviert vertikales Scrollen */
+    max-height: 100%; /* Stellt sicher, dass die Tabelle nicht überläuft */
+    position: relative; /* Wichtig für die korrekte Positionierung der Scrollbar */
+}
+
+.match-table table{
+    width: 100%;
+    padding-right: 6px;
+}
+
+/* Scrollbar-Styling für Webkit-Browser (Chrome, Edge, Safari) */
+.match-table::-webkit-scrollbar {
+    width: 4px; /* Dünne Scrollbar */
+}
+
+.match-table::-webkit-scrollbar-track {
+    background: transparent; /* Keine Hintergrundfarbe für den Track */
+}
+
+/* Firefox Scrollbar */
+.match-table {
+    scrollbar-width: thin; /* Dünne Scrollbar */
+}
+
+
+
+/*sachen außen rum*/
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.arrow {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+}
+
+.submit {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 20px; /* Abstand zu den Tabellen, mit mehr Abstand nach oben */
+}
+
+.submit a {
+    background-color: #2a2c6b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 16px;
+    border: 2px solid white;
+}
+
+.submit a:hover {
+    background-color: #2a2c6b;
+}
+
+
+
+/*hintergrundfarben*/
+tbody tr {
+    background-color: transparent; /* Standard auf transparent */
+}
+
+tbody tr.green-row {
+    background-color: green !important; /* Wendet die grüne Farbe an, falls die Zeile die Klasse erhält */
+}
+
+.last-three td{
+    background-color: hsl(0, 100%, 65%); /* Roter Hintergrund */
+}
+
+.first-three td{
+    background-color: rgb(0, 202, 0);
+}
+
+.relegation td{
+    background-color: rgb(161, 246, 161);
+}
+
+.relegation-bottom td{
+    background-color: rgb(246, 162, 161);
+}
+
+.final-four td{
+    background-color: rgb(101, 145, 255);
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #2a2c6b;
+}
+
+@-moz-document url-prefix() {
+    tr, th, td, thead {
+        height: 1em;
+    }
+}
+@media (max-width: 1350px) {
+  thead th, td {
+  font-size: 0.8rem;
+  }
+}
+/* Make tables responsive on smaller screens */
+@media (max-width: 1024px) {
+
+.table-scroll { max-height: 60vh; }
+
+  thead th, td {
+  padding: 6px 8px;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+  html, body {
+    height: auto;              /* allow page to grow */
+  }
+
+  body {
+    min-height: 100dvh;        /* better for mobile browsers */
+    overflow-x: hidden;        /* prevent sideways scroll */
+    overflow-y: auto;          /* ⬅️ allow vertical scroll */
+  }
+
+  /* avoid stray horizontal overflow from vw */
+  header {
+    width: 100%;               /* instead of 100vw */
+  }
+  .arrow {
+  position: static;        /* no absolute positioning */
+  transform: none;
+  margin: 16px auto 24px;
+  text-align: center;
+}
+
+  header h1 {
+    font-size: clamp(1.5em, 5vw, 2.5em);
+    text-align: center;
+  }
+
+
+  /* Limit vertical size for tables */
+  .league-table table, .match-table table {
+    max-height: 69vh;          /* adjust as needed */
+    overflow-y: auto;           /* enable vertical scrolling inside */
+    display: block;             /* required for overflow to work */
+  }
+
+  .tables-container {
+    flex-direction: column;      /* stack */
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 16px;
+    margin: 2vh 10px;
+    padding: 0;
+    height: auto;                /* remove 69vh lock */
+  }
+
+  .league-table,
+  .match-tables {
+    width: auto;
+    height: auto;
+    margin: 0;
+  }
+
+  .match-tables {
+    align-self: center;
+  }
+
+  /* make each match-table use full width on mobile */
+  .match-table,
+  .match-table:first-of-type,
+  .match-table:last-of-type {
+    width: 100% !important;    /* override the 80% desktop rule */
+    margin: 0;
+  }
+
+
+  .league-table thead,
+  .match-table thead {
+    position: sticky;
+    top: 0;
+    z-index: 1;                /* keep it above rows */
+    background-color: #2a2c6b; /* match your header color */
+  }
+
+  .league-table,
+  .match-table,
+  table {
+    width: auto;
+    height: auto;          /* drop fixed 100% heights */
+    max-height: none;
+  }
+
+  table {
+    width: auto;
+    table-layout: auto;          /* allow natural column widths */
+    display: block;              /* enable horizontal scroll */
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    height: auto;                /* drop 100% height */
+  }
+
+  /* override <col style="width:…"> from colgroup */
+  colgroup col {
+    width: auto !important;
+  }
+
+  thead th, td {
+    padding: 6px 8px;
+    font-size: 0.9rem;           /* smaller text on mobile */
+  }
+
+  /* allow labels/names to wrap instead of ellipsis everywhere */
+  thead th {
+    white-space: normal;
+  }
+  tbody td {
+    white-space: normal;         /* allow wrapping for names */
+    text-overflow: clip;
+  }
+}

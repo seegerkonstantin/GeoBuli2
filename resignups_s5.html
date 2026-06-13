@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geobundesliga - S5 Wiederanmeldungen</title>
+
+    <link rel="stylesheet" href="default2.css" />
+    <link rel="icon" href="icon.png" />
+    <style>
+      body {
+        overflow: auto;
+        background-image: url("hintergrund.png");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+      }
+
+      .container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2vh;
+      }
+
+      .table-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5vw;
+        justify-content: center;
+
+        margin-bottom: 20px;
+      }
+
+      .league-table {
+        width: 8vw;
+      }
+
+      .league-table-wide {
+        width: 16vw;
+      }
+
+      th {
+        text-align: center;
+      }
+
+      /* ------------------------------------------------------------------------------------------------------*/
+      header {
+        background-color: #1a012b;
+        padding: 30px 40px;
+        flex-shrink: 0;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      header .logo {
+        font-weight: bold;
+        font-size: 1.6rem;
+        display: flex;
+        align-items: center;
+      }
+
+      header nav a {
+        text-decoration: none;
+        color: white;
+        margin: 0 10px;
+      }
+
+      header nav a:hover {
+        color: #ffcc00;
+        background-color: transparent;
+      }
+
+      header .btn-discord {
+        background: #4b1d69;
+        padding: 6px 12px;
+        border-radius: 6px;
+        color: white;
+        text-decoration: none;
+        margin-left: 10px;
+      }
+
+      .btn-discord:hover {
+        border-color: #9b5de5;
+        background-color: #5b2a86;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="logo">
+        <img
+          src="icon.png"
+          alt="Icon"
+          style="height: 1.5em; margin-right: 0.25em"
+        />
+        <nav class="d-flex align-items-center">
+          <a href="index.html">Geo Bundesliga Resignups </a>
+        </nav>
+      </div>
+
+      <nav class="d-flex align-items-center">
+        <a href="untereReihe/archive/archive.html">Archiv</a>
+        <a
+          href="https://docs.google.com/document/d/11WWWQ7A1m6n9R86trTNLUGLqALgalhZpOkxdVoMzFAg/edit?usp=sharing"
+          >Regelwerk</a
+        >
+        <a href="untereReihe/mapbot/mapbot.html">Map Bot</a>
+        <!-- <a href="untereReihe/stats/stats.html">Statistiken</a> -->
+        <a href="https://discord.gg/3YkaPPTp" class="btn-discord"
+          >DACH Discord</a
+        >
+      </nav>
+    </header>
+
+    <br /><br />
+    <!--<header>
+      <a href="index.html" class="button" id="back-button">
+        <span>Zurück</span>
+      </a>
+      <h1>Wiederanmeldungen</h1>
+    </header>-->
+    <div class="container">
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSd4o0o-9AXuAF6aZHLGHdSAUFPg5of2C1Ue5r7Y0hMXxblaAw/viewform"
+        class="button"
+        id="resignup-button"
+        target="_blank"
+      >
+        <span>Re-Signup</span>
+      </a>
+    </div>
+    <div class="table-container">
+      <!-- Liga 1 -->
+      <table class="league-table" id="liga1">
+        <thead>
+          <tr>
+            <th>Liga 1</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Liga 2 -->
+      <table class="league-table" id="liga2">
+        <thead>
+          <tr>
+            <th>Liga 2</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Liga 3 -->
+      <table class="league-table-wide" id="liga3">
+        <thead>
+          <tr>
+            <th colspan="2">Liga 3</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Liga 4 -->
+      <table class="league-table-wide" id="liga4">
+        <thead>
+          <tr>
+            <th colspan="2">Liga 4</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+
+      <!-- Liga 5 -->
+      <table class="league-table-wide" id="liga5">
+        <thead>
+          <tr>
+            <th colspan="2">Liga 5</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    // Google Sheet Setup
+    let sheetID = "1Uf9rBnJ1zhPtU3EoVm2bar0-St0Vxon29Gouw2REq-U";
+    let spreadsheetName = "resignups";
+
+    let dataRange1 = "C1:D12";
+    let dataRange2 = "G1:H16";
+    let dataRange3 = "K1:L46";
+    let dataRange4 = "O1:P46";
+    let dataRange5 = "S1:T46";
+
+    let URL1 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange1;
+    let URL2 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange2;
+    let URL3 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange3;
+    let URL4 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange4;
+
+    let URL5 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange5;
+
+    // Daten abrufen
+    function fetchAndRenderData(URL) {
+      fetch(URL)
+        .then((res) => res.text())
+        .then((rep) => {
+          let jsonData = JSON.parse(rep.substr(47).slice(0, -2));
+          renderLeagueTable(jsonData, URL);
+        })
+        .catch((error) => {
+          console.error("Fehler beim Abrufen der Daten: ", error);
+        });
+    }
+
+    // Standard-Renderfunktion für einspaltige Tabellen
+    function renderHalf(rows, selector) {
+      let tableBody = document.querySelector(selector);
+      tableBody.innerHTML = "";
+
+      rows.forEach((row) => {
+        let player = row.c[0]?.v || "Unbekannt";
+        let status = row.c[1]?.v || "0";
+
+        let newRow = document.createElement("tr");
+        newRow.innerHTML = `<td>${player}</td>`;
+        if (status == "1") newRow.style.backgroundColor = "#75A960";
+
+        tableBody.appendChild(newRow);
+      });
+    }
+
+    // Neue Renderfunktion für zweispaltige Tabellen
+    function renderSplit(firstHalf, secondHalf, selector) {
+      let tableBody = document.querySelector(selector);
+      tableBody.innerHTML = "";
+
+      let maxRows = Math.max(firstHalf.length, secondHalf.length);
+
+      for (let i = 0; i < maxRows; i++) {
+        let row = document.createElement("tr");
+
+        // linke Spalte
+        if (i < firstHalf.length) {
+          let player = firstHalf[i].c[0]?.v || "Unbekannt";
+          let status = firstHalf[i].c[1]?.v || "0";
+          let td = document.createElement("td");
+          td.textContent = player;
+          if (status == "1") td.style.backgroundColor = "#75A960";
+          row.appendChild(td);
+        } else {
+          row.appendChild(document.createElement("td"));
+        }
+
+        // rechte Spalte
+        if (i < secondHalf.length) {
+          let player = secondHalf[i].c[0]?.v || "Unbekannt";
+          let status = secondHalf[i].c[1]?.v || "0";
+          let td = document.createElement("td");
+          td.textContent = player;
+          if (status == "1") td.style.backgroundColor = "#75A960";
+          row.appendChild(td);
+        } else {
+          row.appendChild(document.createElement("td"));
+        }
+
+        tableBody.appendChild(row);
+      }
+    }
+
+    // Tabellen rendern
+    function renderLeagueTable(jsonData, URL) {
+      let rows = jsonData.table.rows;
+
+      if (URL == URL1) {
+        renderHalf(rows, "#liga1 tbody");
+      } else if (URL == URL2) {
+        renderHalf(rows, "#liga2 tbody");
+      } else if (URL == URL3) {
+        let halfway = Math.ceil(rows.length / 2);
+        renderSplit(
+          rows.slice(0, halfway),
+          rows.slice(halfway),
+          "#liga3 tbody",
+        );
+      } else if (URL == URL4) {
+        let halfway = Math.ceil(rows.length / 2);
+        renderSplit(
+          rows.slice(0, halfway),
+          rows.slice(halfway),
+          "#liga4 tbody",
+        );
+      } else if (URL == URL5) {
+        let halfway = Math.ceil(rows.length / 2);
+        renderSplit(
+          rows.slice(0, halfway),
+          rows.slice(halfway),
+          "#liga5 tbody",
+        );
+      }
+    }
+
+    // Lade alle Daten beim Seitenstart
+    document.addEventListener("DOMContentLoaded", function () {
+      fetchAndRenderData(URL1);
+      fetchAndRenderData(URL2);
+      fetchAndRenderData(URL3);
+      fetchAndRenderData(URL4);
+      fetchAndRenderData(URL5);
+    });
+  </script>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistiken</title>
+  <link rel="stylesheet" href="stats.css">
+
+  <link rel="icon" href="../../icon.png" />
+  <style>
+    /* Flexbox-Container für die Tabellen nebeneinander */
+    .table-container {
+      display: flex;
+      gap: 20px; /* Abstand zwischen den Tabellen */
+      justify-content: space-around; /* Gleichmäßige Verteilung */
+    }
+
+    /* Back Button */
+    .back-button {
+      display: inline-block;
+      background-color: #2a2c6b;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      border: 2px solid white;
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+
+    .back-button:hover {
+      background-color: #74215d;
+      color: white;
+    }
+
+    .back-button:visited {
+      color: white;
+    }
+
+    /* Stil für die Überschriften über den Tabellen */
+    .table-title {
+      color: #ffffff; /* Grünliche Farbe für die Überschrift */
+      text-align: center;
+      font-size: 1.2em;
+      margin-bottom: 8px; /* Abstand zwischen Überschrift und Tabelle */
+    }
+
+    h1 {
+      word-break: break-word; /* Allows breaking long words if needed */
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- Back button -->
+  <a class="back-button" href="../../archive.html">Archiv</a>
+
+<header>
+  <h1>Statistiken</h1>
+
+  <!-- Flex-Container für die Tabellen 1 und 2 -->
+  <div class="table-container">
+    <!-- Tabelle 1 -->
+    <div>
+      <h2 class="table-title">Liga 1</h2>
+      <div class="table-wrapper">
+        <table id="data-table-1">
+          <thead>
+            <tr id="table-header-1"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+          </thead>
+          <tbody id="table-body-1"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabelle 2 -->
+    <div>
+      <h2 class="table-title">Liga 2</h2>
+      <div class="table-wrapper">
+        <table id="data-table-2">
+          <thead>
+            <tr id="table-header-2"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+          </thead>
+          <tbody id="table-body-2"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flex-Container für die Tabellen 3 und 4 -->
+  <div class="table-container">
+    <!-- Tabelle 3 -->
+    <div>
+      <h2 class="table-title">Liga 3a</h2>
+      <div class="table-wrapper">
+        <table id="data-table-3">
+          <thead>
+            <tr id="table-header-3"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+          </thead>
+          <tbody id="table-body-3"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabelle 4 -->
+    <div>
+      <h2 class="table-title">Liga 3b</h2>
+      <div class="table-wrapper">
+        <table id="data-table-4">
+          <thead>
+            <tr id="table-header-4"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+          </thead>
+          <tbody id="table-body-4"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Flex-Container für die Tabellen 5 und 6 -->
+  <div class="table-container">
+    <!-- Tabelle 5 -->
+    <div>
+      <h2 class="table-title">Liga 4a</h2>
+      <div class="table-wrapper">
+        <table id="data-table-5">
+          <thead>
+            <tr id="table-header-5"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+          </thead>
+          <tbody id="table-body-5"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tabelle 6 -->
+    <div>
+      <h2 class="table-title">Liga 4b</h2>
+      <div class="table-wrapper">
+        <table id="data-table-6">
+          <thead>
+            <tr id="table-header-6"><th></th><th>Discord-Name</th><th>GeoGuessr-Name</th><th>Punkte</th></tr>
+          </thead>
+          <tbody id="table-body-6"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal-Container -->
+  <div id="statsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2 id="modalTitle">Spielerstatistiken</h2>
+      <p id="modalDetails">Details zu einzelnen Spieler*innen werden hier angezeigt.</p>
+    </div>
+  </div>
+
+  <script src="stats.js">
+  </script>
+  <script>
+
+      // Instanziiere die Klassen für jede Liga
+      const liga1Stats = new StatsTable(
+          '1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw',
+          'Player_stats',
+          'A3:AA120',
+          '',
+          'PlayerStats'
+      );
+
+      // Lade die Daten für alle Ligen
+      liga1Stats.initialize();
+
+  </script>
+
+</body>
+</html>

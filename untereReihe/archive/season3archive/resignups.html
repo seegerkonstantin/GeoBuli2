@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Geobundesliga - 1. Liga</title>
+
+    <link rel="stylesheet" href="defaultS3.css" />
+    <style>
+      .container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2vh;
+      }
+
+      .table-container {
+        display: flex;
+        flex-direction: row;
+        gap: 10vw;
+        justify-content: center;
+      }
+
+      .league-table {
+        width: 10vw;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="../index.html" class="button" id="back-button">
+        <span>Zurück</span>
+      </a>
+      <h1>Wiederanmeldungen</h1>
+    </header>
+    <div class="container">
+      <a
+        href="https://docs.google.com/forms/d/e/1FAIpQLSerem1C7jMsrc8jvtplKSBb9KN47giMOtI5EsSaH2m7rSTFRw/viewform"
+        class="button"
+        id="resignup-button"
+        target="_blank"
+      >
+        <span>Re-Signup</span>
+      </a>
+    </div>
+    <div class="table-container">
+      <table class="league-table" id="liga1">
+        <thead>
+          <tr>
+            <th>Liga 1</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table class="league-table" id="liga2">
+        <thead>
+          <tr>
+            <th>Liga 2</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <table class="league-table" id="liga3">
+        <thead>
+          <tr>
+            <th>Liga 3</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    // Nur für die Preseason Signups der Teil
+    let sheetID = "1Uxxbeuk95zrvLEHi8E9qfB9q6iklD6MZ8KAsUbsC2nw";
+    let spreadsheetName = "resignups"; // Tabellenblatt-Name
+    let dataRange1 = "B2:C15";
+    let dataRange2 = "D2:E15";
+    let dataRange3 = "F2:G16";
+    let URL1 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange1;
+    let URL2 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange2;
+    let URL3 =
+      "https://docs.google.com/spreadsheets/d/" +
+      sheetID +
+      "/gviz/tq?sheet=" +
+      spreadsheetName +
+      "&range=" +
+      dataRange3;
+
+    // Funktion zum Abrufen und Rendern der Spieler-Daten
+    function fetchAndRenderData(URL) {
+      fetch(URL)
+        .then((res) => res.text())
+        .then((rep) => {
+          let jsonData = JSON.parse(rep.substr(47).slice(0, -2));
+          console.log(jsonData); // Bereinige das JSON
+          renderLeagueTable(jsonData, URL); // Render die Tabelle mit den Daten
+        })
+        .catch((error) => {
+          console.error("Fehler beim Abrufen der Daten: ", error);
+        });
+    }
+
+    // Funktion zum Rendern der Liga-Tabelle
+    function renderLeagueTable(jsonData, URL) {
+      let rows = jsonData.table.rows;
+      let tableBody;
+
+      if (URL == URL1) {
+        tableBody = document.querySelector("#liga1 tbody");
+      } else if (URL == URL2) {
+        tableBody = document.querySelector("#liga2 tbody");
+      } else {
+        tableBody = document.querySelector("#liga3 tbody");
+      }
+
+      tableBody.innerHTML = ""; // Vorhandene Daten löschen
+
+      rows.forEach((row) => {
+        let player = row.c[0]?.v || "Unbekannt"; // Spielername in Spalte B (Index 0)
+        let status = row.c[1]?.v || "0"; // Wert in der C-Spalte (Index 1)
+
+        // Erstelle eine neue Tabellenzeile
+        let newRow = document.createElement("tr");
+
+        // Füge nur den Spielernamen ein
+        newRow.innerHTML = `
+                <td>${player}</td>
+            `;
+
+        // Färbe die Zeile grün, wenn in Spalte C eine "1" steht
+        //Für die nächsten Saisons: Bei der google sheet tabelle, die importiert werden soll einfach den Status des Ersten
+        //auf 0 setzen, das löst alle probleme
+        if (status == "1") {
+          newRow.style.backgroundColor = "green";
+        }
+
+        // Füge die Zeile dem Tabellenkörper hinzu
+        tableBody.appendChild(newRow);
+      });
+    }
+
+    // Lade die Spieler-Daten beim Seitenaufruf
+    document.addEventListener("DOMContentLoaded", function () {
+      fetchAndRenderData(URL1);
+      fetchAndRenderData(URL2);
+      fetchAndRenderData(URL3);
+    });
+  </script>
+</html>
