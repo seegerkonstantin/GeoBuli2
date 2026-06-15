@@ -55,7 +55,9 @@ function renderMatchMaps(maps) {
     `;
   }
 
-  return `
+
+
+  /*return `
     <div id="maps-container" class="maps-container">
       ${maps
         .map(([mapName, winner, matchtype, health, link], index) => {
@@ -70,6 +72,43 @@ function renderMatchMaps(maps) {
           return link
             ? `<a class="map-card ${winnerClass}" href="${link}" target="_blank" rel="noopener">${mapCardContent}</a>`
             : `<div class="map-card ${winnerClass}">${mapCardContent}</div>`;
+        })
+        .join("")}
+    </div>
+  `;
+}*/
+const rows = [maps.slice(0, 2), maps.slice(2, 5), maps.slice(5)];
+  const renderMapCard = ([mapName, winner, matchtype, health, link], index) => {
+    const winnerClass =
+      winner === "blue" ? "blue-win" : winner === "red" ? "red-win" : "";
+    const mapCardContent = `
+      <span class="map-number">Map ${index + 1}</span>
+      <strong>${mapName}</strong>
+      <span class="map-meta">${formatMatchType(matchtype)}${
+      health ? ` · ${health} Health` : ""
+    }</span>
+    `;
+
+    return link
+      ? `<a class="map-card ${winnerClass}" href="${link}" target="_blank" rel="noopener">${mapCardContent}</a>`
+      : `<div class="map-card ${winnerClass}">${mapCardContent}</div>`;
+  };
+
+  return `
+    <div id="maps-container" class="maps-container">
+      ${rows
+        .map((row, rowIndex) => {
+          const previousMaps = rows
+            .slice(0, rowIndex)
+            .reduce((total, previousRow) => total + previousRow.length, 0);
+
+          return row.length
+            ? `<div class="maps-row maps-row-${row.length}">${row
+                .map((mapInfo, mapIndex) =>
+                  renderMapCard(mapInfo, previousMaps + mapIndex)
+                )
+                .join("")}</div>`
+            : "";
         })
         .join("")}
     </div>
