@@ -607,7 +607,7 @@ class LeagueTable {
           <div class="stats-player-name">${playerName}</div>
           <div class="stats-player-meta">Discord: ${getValue(
             this.statsSheetColDiscordName
-          )} <br> Oblast: ${region === "base" ? "-" : region}</div>
+          )}  &middot ${region === "base" ? "-" : region}</div>
         </div>
         <a class="stats-profile-link" href="${profileLink}" target="_blank" rel="noopener">GeoGuessr Profil</a>
       </div>
