@@ -258,20 +258,34 @@ td {
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.42);
   color: white;
   max-height: 86vh;
-  max-width: 760px;
   overflow: auto;
   padding: 1.2rem;
   width: min(760px, calc(100% - 32px));
 }
 
-.modal-content h2 {
+.modal-content-profile {
+  background-color: #2b2a2c;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 10px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.42);
+  color: white;
+  max-height: 86vh;
+  max-width: 760px; /* wieder weg, wegen Game Summaries */
+  overflow: auto;
+  padding: 1.2rem;
+  width: min(760px, calc(100% - 32px));
+}
+
+.modal-content h2,
+.modal-content-profile h2 {
   color: white;
   font-size: clamp(1.35rem, 1rem + 1vw, 1.75rem);
   line-height: 1.2;
   margin: 0 2.5rem 1rem;
 }
 
-.modal-content p {
+.modal-content p,
+.modal-content-profile p {
   color: #f0f3f7;
 }
 
@@ -685,7 +699,8 @@ td {
     flex-direction: column;
   }
 
-  .modal-content {
+  .modal-content,
+  .modal-content-profile {
     width: min(92vw, 600px);
   }
 }
